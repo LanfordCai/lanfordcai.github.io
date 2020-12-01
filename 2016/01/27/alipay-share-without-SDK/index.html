@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.4" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  
+  <meta name="keywords" content="iOS," />
+
+
+<meta name="description" content="这两天试着为 MonkeyKing 添加了分享到支付宝好友的功能，自己也小小地体验了一次“逆向工程”，在此小记，以为备忘。 MonkeyKing 的目的是帮助 iOS 开发者在不集成 SDK 的情况下实现社交分享功能。要为它添加 分享到支付宝好友 的功能就需要知道支付宝官方 SDK 做了些什么，并自己使用代码来进行相应的操作。很遗憾支付宝的 SDK 并不是开源的， 所以我们就需要一些特殊手段来一探">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无 SDK 实现支付宝分享">
+<meta property="og:url" content="http://yoursite.com/2016/01/27/alipay-share-without-SDK/index.html">
+<meta property="og:site_name" content="Lanford33">
+<meta property="og:description" content="这两天试着为 MonkeyKing 添加了分享到支付宝好友的功能，自己也小小地体验了一次“逆向工程”，在此小记，以为备忘。 MonkeyKing 的目的是帮助 iOS 开发者在不集成 SDK 的情况下实现社交分享功能。要为它添加 分享到支付宝好友 的功能就需要知道支付宝官方 SDK 做了些什么，并自己使用代码来进行相应的操作。很遗憾支付宝的 SDK 并不是开源的， 所以我们就需要一些特殊手段来一探">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/uploads/textDataPlist.png">
+<meta property="article:published_time" content="2016-01-27T08:57:42.000Z">
+<meta property="article:modified_time" content="2020-12-01T01:50:24.475Z">
+<meta property="article:author" content="Lanford33">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/uploads/textDataPlist.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/01/27/alipay-share-without-SDK/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>无 SDK 实现支付宝分享 | Lanford33</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lanford33</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">来写点东西吧！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/27/alipay-share-without-SDK/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lanford33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lanford33">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">无 SDK 实现支付宝分享</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-27T16:57:42+08:00">2016-01-27</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这两天试着为 <a href="https://github.com/nixzhu/MonkeyKing" target="_blank" rel="noopener"><strong>MonkeyKing</strong></a> 添加了分享到支付宝好友的功能，自己也小小地体验了一次“逆向工程”，在此小记，以为备忘。</p>
+<p>MonkeyKing 的目的是帮助 iOS 开发者在不集成 SDK 的情况下实现社交分享功能。要为它添加 分享到支付宝好友 的功能就需要知道支付宝官方 SDK 做了些什么，并自己使用代码来进行相应的操作。很遗憾支付宝的 SDK 并不是开源的， 所以我们就需要一些特殊手段来一探究竟。</p>
+<a id="more"></a>
+
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p><a href="https://github.com/100apps/openshare" target="_blank" rel="noopener"><strong>OpenShare</strong></a> 的作者写过一篇详细的 <a href="http://www.gfzj.us/series/openshare/2015/05/21/openshare-how.html" target="_blank" rel="noopener"><strong>文章</strong></a> 对如何监控我们自己的 App 与官方客户端之间的通信做了介绍，我的操作主要便是依据这篇文章进行的，在此仅对其做个补充。</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><h3 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h3><p>首先，我们要监控官方 Demo 与官方客户端直接互相传递了哪些数据。<br>在我们的 APP 中，和官方的客户端进行通信主要的方式有两种：</p>
+<ol>
+<li>通过 UIApplication.sharedApplication 的 openURL 方法</li>
+<li>通过 UIPasteboard 进行数据传递</li>
+</ol>
+<p>我们可以通过 Method Swizzling为 openURL 方法及 pasteboard 相关方法加上一些自己的处理，打印出 openURL 所打开的 URL 地址以及官方 Demo 及客户端在 pasteboard 中传递的数据(详见<a href="http://www.gfzj.us/series/openshare/2015/05/21/openshare-how.html" target="_blank" rel="noopener"><strong>这里</strong></a>) 。</p>
+<h3 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h3><h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p>在添加 Method Swizzling 之后， 我们点击官方 Demo 中的 发送文本信息到支付宝，可以看到 openURL 方法打开的 URL 是这个样子的:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">----------open url: 0----------</span><br><span class="line">alipayshare:&#x2F;&#x2F;platformapi&#x2F;shareService?action&#x3D;sendReq&amp;shareId&#x3D;2016012101112529</span><br></pre></td></tr></table></figure>
+
+<p>最后的那一串数字是我们的 appID, 若我们直接调用 openURL 打开这个链接，是可以从我们的 APP 跳转到支付宝的，但除此之外，什么都没有发生，这是因为我们还没有给支付宝客户端提供数据进行处理。</p>
+<h4 id="发送的数据"><a href="#发送的数据" class="headerlink" title="发送的数据"></a>发送的数据</h4><p>我们应该提供给支付宝客户端的数据也可以通过 Swizzling 之后的方法打印出来，大概是长这个样子的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">----------swizzlePasteboardSetData: 1----------</span><br><span class="line">PasteboardName: com.apple.UIKit.pboard.general</span><br><span class="line">type: com.alipay.openapi.pb.req.2016012101112529</span><br><span class="line"> dict&#123;</span><br><span class="line">    &quot;$archiver&quot; &#x3D; NSKeyedArchiver;</span><br><span class="line">    &quot;$objects&quot; &#x3D;     (</span><br><span class="line">        &quot;$null&quot;,</span><br><span class="line">                &#123;</span><br><span class="line">            &quot;$class&quot; &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ae1fd00 [0x1043bc7b0]&gt;&#123;value &#x3D; 20&#125;&quot;;</span><br><span class="line">            &quot;NS.keys&quot; &#x3D;             (</span><br><span class="line">                &quot;&lt;CFKeyedArchiverUID 0x7f961ae25c20 [0x1043bc7b0]&gt;&#123;value &#x3D; 2&#125;&quot;,</span><br><span class="line">                &quot;&lt;CFKeyedArchiverUID 0x7f961ae27b00 [0x1043bc7b0]&gt;&#123;value &#x3D; 3&#125;&quot;</span><br><span class="line">            );</span><br><span class="line">            &quot;NS.objects&quot; &#x3D;             (</span><br><span class="line">                &quot;&lt;CFKeyedArchiverUID 0x7f961ae10d90 [0x1043bc7b0]&gt;&#123;value &#x3D; 4&#125;&quot;,</span><br><span class="line">                &quot;&lt;CFKeyedArchiverUID 0x7f961ae1b010 [0x1043bc7b0]&gt;&#123;value &#x3D; 11&#125;&quot;</span><br><span class="line">            );</span><br><span class="line">        &#125;,</span><br><span class="line">        app,</span><br><span class="line">        req,</span><br><span class="line">                &#123;</span><br><span class="line">            &quot;$class&quot; &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac2e2f0 [0x1043bc7b0]&gt;&#123;value &#x3D; 10&#125;&quot;;</span><br><span class="line">            appKey &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac78b90 [0x1043bc7b0]&gt;&#123;value &#x3D; 6&#125;&quot;;</span><br><span class="line">            bundleId &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac38200 [0x1043bc7b0]&gt;&#123;value &#x3D; 7&#125;&quot;;</span><br><span class="line">            name &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac7ca10 [0x1043bc7b0]&gt;&#123;value &#x3D; 5&#125;&quot;;</span><br><span class="line">            scheme &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac0b140 [0x1043bc7b0]&gt;&#123;value &#x3D; 8&#125;&quot;;</span><br><span class="line">            sdkVersion &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac7c3c0 [0x1043bc7b0]&gt;&#123;value &#x3D; 9&#125;&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">        APSocialSDKDemo,</span><br><span class="line">        2016012101112529,</span><br><span class="line">        &quot;com.nixWork.China&quot;,</span><br><span class="line">        ap2016012101112529,</span><br><span class="line">        &quot;1.0.1.150917&quot;,</span><br><span class="line">                &#123;</span><br><span class="line">            &quot;$classes&quot; &#x3D;             (</span><br><span class="line">                APSdkApp,</span><br><span class="line">                NSObject</span><br><span class="line">            );</span><br><span class="line">            &quot;$classname&quot; &#x3D; APSdkApp;</span><br><span class="line">        &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">            &quot;$class&quot; &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac7cc50 [0x1043bc7b0]&gt;&#123;value &#x3D; 19&#125;&quot;;</span><br><span class="line">            message &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac7c5b0 [0x1043bc7b0]&gt;&#123;value &#x3D; 13&#125;&quot;;</span><br><span class="line">            scene &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac7ae20 [0x1043bc7b0]&gt;&#123;value &#x3D; 18&#125;&quot;;</span><br><span class="line">            type &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac7cc30 [0x1043bc7b0]&gt;&#123;value &#x3D; 12&#125;&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">        0,</span><br><span class="line">                &#123;</span><br><span class="line">            &quot;$class&quot; &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac7db30 [0x1043bc7b0]&gt;&#123;value &#x3D; 17&#125;&quot;;</span><br><span class="line">            mediaObject &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac7c2a0 [0x1043bc7b0]&gt;&#123;value &#x3D; 14&#125;&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">            &quot;$class&quot; &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac7b5d0 [0x1043bc7b0]&gt;&#123;value &#x3D; 16&#125;&quot;;</span><br><span class="line">            text &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ac7b5b0 [0x1043bc7b0]&gt;&#123;value &#x3D; 15&#125;&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">        WeWillWeWillRockYou,</span><br><span class="line">                &#123;</span><br><span class="line">            &quot;$classes&quot; &#x3D;             (</span><br><span class="line">                APShareTextObject,</span><br><span class="line">                NSObject</span><br><span class="line">            );</span><br><span class="line">            &quot;$classname&quot; &#x3D; APShareTextObject;</span><br><span class="line">        &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">            &quot;$classes&quot; &#x3D;             (</span><br><span class="line">                APMediaMessage,</span><br><span class="line">                NSObject</span><br><span class="line">            );</span><br><span class="line">            &quot;$classname&quot; &#x3D; APMediaMessage;</span><br><span class="line">        &#125;,</span><br><span class="line">        0,</span><br><span class="line">                &#123;</span><br><span class="line">            &quot;$classes&quot; &#x3D;             (</span><br><span class="line">                APSendMessageToAPReq,</span><br><span class="line">                APBaseReq,</span><br><span class="line">                NSObject</span><br><span class="line">            );</span><br><span class="line">            &quot;$classname&quot; &#x3D; APSendMessageToAPReq;</span><br><span class="line">        &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">            &quot;$classes&quot; &#x3D;             (</span><br><span class="line">                NSMutableDictionary,</span><br><span class="line">                NSDictionary,</span><br><span class="line">                NSObject</span><br><span class="line">            );</span><br><span class="line">            &quot;$classname&quot; &#x3D; NSMutableDictionary;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">    &quot;$top&quot; &#x3D;     &#123;</span><br><span class="line">        root &#x3D; &quot;&lt;CFKeyedArchiverUID 0x7f961ae26090 [0x1043bc7b0]&gt;&#123;value &#x3D; 1&#125;&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line">    &quot;$version&quot; &#x3D; 100000;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面的信息可以看出，官方 Demo 粘贴数据的 pasteboard 的信息， 以及具体的数据。这些数据看起来像是一个包含了我们 APP 信息及所发送文本(“WeWillWeWillRockYou”)的大字典。那么我们下一步需要做的事情就很明白了–自己拼接出这个大字典。</p>
+<p>但问题来了，其中的<code>&quot;&lt;CFKeyedArchiverUID 0x7f961ac7c5b0 [0x1043bc7b0]&gt;{value = 13}&quot;</code> 是什么东西呢？</p>
+<p>经过搜索，我们可以找到<a href="http://iphonedevwiki.net/index.php/CFKeyedArchiverUID" target="_blank" rel="noopener"><strong>这样</strong></a>的解释：</p>
+<blockquote>
+<p>CFKeyedArchiverUID is the “8th property list object” for supporting NSKeyedArchiver.</p>
+</blockquote>
+<p>于是我们就要考虑把我们拿到的数据转换成 property list 看个究竟了。</p>
+<p>我们在 swizzlePasteboardSetData 方法中将获得的 Data 写入 plist 文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)swizzlePasteboardSetData &#123;</span><br><span class="line">    SEL swizzlePasteboardSetDataSEL&#x3D;@selector(setData:forPasteboardType:);</span><br><span class="line">    void (*swizzlePasteboardSetDataIMP)(id,SEL,id,id)&#x3D;(void(*)(id,SEL,id,id))[UIPasteboard instanceMethodForSelector:swizzlePasteboardSetDataSEL];</span><br><span class="line"></span><br><span class="line">    static int count&#x3D;0;</span><br><span class="line">    void (^mypasteboardSetData)(id SELF,NSData *data,NSString *type)&#x3D;^(id SELF,NSData *data,NSString *type)&#123;</span><br><span class="line"></span><br><span class="line">        NSLog(@&quot;\n----------swizzlePasteboardSetData: %d----------\nPasteboardName: %@\ntype: %@\n dict%@\n&quot;,count++,[((UIPasteboard *)SELF) name], type,[NSPropertyListSerialization propertyListWithData:data options:0 format:0 error:nil]);</span><br><span class="line"></span><br><span class="line">        NSArray *paths &#x3D; NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);</span><br><span class="line">        NSString *documentsDirectory &#x3D; paths[0];</span><br><span class="line">        NSString *plistPath &#x3D; [documentsDirectory stringByAppendingPathComponent:@&quot;textData.plist&quot;];</span><br><span class="line"></span><br><span class="line">        NSLog(@&quot;plistPath %@&quot;, plistPath);</span><br><span class="line"></span><br><span class="line">        [[NSFileManager defaultManager] createFileAtPath:plistPath contents:nil attributes:nil];</span><br><span class="line">        [data writeToFile:plistPath atomically:YES];</span><br><span class="line">        swizzlePasteboardSetDataIMP(SELF,swizzlePasteboardSetDataSEL,data,type);</span><br><span class="line">    &#125;;</span><br><span class="line">    class_replaceMethod([UIPasteboard class], swizzlePasteboardSetDataSEL, imp_implementationWithBlock(mypasteboardSetData), NULL);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后使用模拟器打开 Demo, 运行之后就可以进入模拟器的 Documents 文件夹中找到输出的 textData.plist 文件，但是这个 .plist 文件是 binary 格式的，而非 XML 格式，我们需要在终端中使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plutil -convert xml1 textData.plist</span><br></pre></td></tr></table></figure>
+
+<p>来将其转换成 XML 格式。打开后就可以看到我们真正需要拼接的字典长什么样啦。</p>
+<p><img src="/uploads/textDataPlist.png" alt="TextDataPlist"></p>
+<p>在我们自己的代码中，根据这个 plist 文件的结构拼接出 dictionary 之后，使用</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> data =  <span class="keyword">try</span>? <span class="type">NSPropertyListSerialization</span>.dataWithPropertyList(dictionary, format: .<span class="type">XMLFormat_v1_0</span>, options: <span class="number">0</span>) <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">UIPasteboard</span>.generalPasteboard().setData(data, forPasteboardType: <span class="string">"com.alipay.openapi.pb.req.\(appID)"</span>)</span><br></pre></td></tr></table></figure>
+<p>即可将数据贴入剪贴板，再用</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openURL(<span class="type">URLString</span>: <span class="string">"alipayshare://platformapi/shareService?action=sendReq&amp;shareId=\(appID)"</span>)</span><br></pre></td></tr></table></figure>
+<p>便可跳转到支付宝进行分享了。</p>
+<p>需要注意的是，plist 文件中我们看到的 <code>CF$UID</code> 对应的数字其实是个索引，比如 <code>Item4</code> 中 <code>appKey</code> 的 <code>CF$UID</code> 对应 6, 那么 <code>Item6</code> 就是我们的 <code>appKey</code>, 因此，这些数字以及整个 <code>$objects</code> 数组的顺序必须保证准确。</p>
+<p>另外，分享图片/URL 等所需要的字典和分享文本的字典稍有不同，要注意正确拼接。</p>
+<h4 id="分享后回调的数据"><a href="#分享后回调的数据" class="headerlink" title="分享后回调的数据"></a>分享后回调的数据</h4><p>在分享结束后，无论成功失败，支付宝都会向 type 为 <code>com.alipay.openapi.pb.resp.\(account.appID)</code> 的 pasteboard (注意这个 pasteboard 和 发送数据的 pasteboard 不同)中加入回调数据，通过比较分享成功与失败返回结果的不同，我们可以找到哪一项说明了分享结果，取出后进行对应处理即可。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> account = sharedMonkeyKing.accountSet[.<span class="type">Alipay</span>],</span><br><span class="line">    data = <span class="type">UIPasteboard</span>.generalPasteboard().dataForPasteboardType(<span class="string">"com.alipay.openapi.pb.resp.\(account.appID)"</span>),</span><br><span class="line">    dict = <span class="keyword">try</span>? <span class="type">NSPropertyListSerialization</span>.propertyListWithData(data, options: .<span class="type">Immutable</span>, format: <span class="literal">nil</span>),</span><br><span class="line">    objects = dict[<span class="string">"$objects"</span>] <span class="keyword">as</span>? <span class="type">NSArray</span>,</span><br><span class="line">    result = objects[<span class="number">12</span>] <span class="keyword">as</span>? <span class="type">Int</span> <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> success = (result == <span class="number">0</span>)</span><br><span class="line">sharedMonkeyKing.sharedCompletionHandler?(result: success)</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> success</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/11/15/ethernaut-workthrough-0-10/" rel="prev" title="Ethernaut 题解（0-10）">
+                Ethernaut 题解（0-10） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Lanford33</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">1.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过程"><span class="nav-number">2.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取数据"><span class="nav-number">2.1.</span> <span class="nav-text">获取数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据处理"><span class="nav-number">2.2.</span> <span class="nav-text">数据处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#URL"><span class="nav-number">2.2.1.</span> <span class="nav-text">URL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发送的数据"><span class="nav-number">2.2.2.</span> <span class="nav-text">发送的数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分享后回调的数据"><span class="nav-number">2.2.3.</span> <span class="nav-text">分享后回调的数据</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lanford33</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.4"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

