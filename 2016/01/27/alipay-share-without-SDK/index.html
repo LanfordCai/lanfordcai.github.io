@@ -110,13 +110,13 @@
 <meta property="og:site_name" content="Lanford33">
 <meta property="og:description" content="这两天试着为 MonkeyKing 添加了分享到支付宝好友的功能，自己也小小地体验了一次“逆向工程”，在此小记，以为备忘。 MonkeyKing 的目的是帮助 iOS 开发者在不集成 SDK 的情况下实现社交分享功能。要为它添加 分享到支付宝好友 的功能就需要知道支付宝官方 SDK 做了些什么，并自己使用代码来进行相应的操作。很遗憾支付宝的 SDK 并不是开源的， 所以我们就需要一些特殊手段来一探">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/uploads/textDataPlist.png">
+<meta property="og:image" content="http://yoursite.com/uploads/alipay-share-without-SDK/1.png">
 <meta property="article:published_time" content="2016-01-27T08:57:42.000Z">
-<meta property="article:modified_time" content="2020-12-01T01:50:24.475Z">
+<meta property="article:modified_time" content="2020-12-03T04:37:32.019Z">
 <meta property="article:author" content="Lanford33">
 <meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/uploads/textDataPlist.png">
+<meta name="twitter:image" content="http://yoursite.com/uploads/alipay-share-without-SDK/1.png">
 
 
 
@@ -389,7 +389,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plutil -convert xml1 textData.plist</span><br></pre></td></tr></table></figure>
 
 <p>来将其转换成 XML 格式。打开后就可以看到我们真正需要拼接的字典长什么样啦。</p>
-<p><img src="/uploads/textDataPlist.png" alt="TextDataPlist"></p>
+<p><img src="/uploads/alipay-share-without-SDK/1.png" alt="TextDataPlist"></p>
 <p>在我们自己的代码中，根据这个 plist 文件的结构拼接出 dictionary 之后，使用</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> data =  <span class="keyword">try</span>? <span class="type">NSPropertyListSerialization</span>.dataWithPropertyList(dictionary, format: .<span class="type">XMLFormat_v1_0</span>, options: <span class="number">0</span>) <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">UIPasteboard</span>.generalPasteboard().setData(data, forPasteboardType: <span class="string">"com.alipay.openapi.pb.req.\(appID)"</span>)</span><br></pre></td></tr></table></figure>
 <p>即可将数据贴入剪贴板，再用</p>
@@ -513,7 +513,7 @@
                 
                   <a href="/archives/%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

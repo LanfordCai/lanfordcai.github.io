@@ -267,6 +267,298 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/03/capturetheether-miscellaneous/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lanford33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lanford33">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/12/03/capturetheether-miscellaneous/" itemprop="url">Capturetheether 题解（Miscellaneous）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-03T12:39:18+08:00">2020-12-03</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Miscellaneous"><a href="#Miscellaneous" class="headerlink" title="Miscellaneous"></a>Miscellaneous</h2><h3 id="Assume-ownership"><a href="#Assume-ownership" class="headerlink" title="Assume ownership"></a>Assume ownership</h3><h4 id="目标合约"><a href="#目标合约" class="headerlink" title="目标合约"></a>目标合约</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line">contract AssumeOwnershipChallenge &#123;</span><br><span class="line">    address owner;</span><br><span class="line">    bool public isComplete;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">AssumeOwmershipChallenge</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">authenticate</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.sender == owner);</span><br><span class="line"></span><br><span class="line">        isComplete = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/12/03/capturetheether-miscellaneous/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/03/capturetheether-accounts/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lanford33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lanford33">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/12/03/capturetheether-accounts/" itemprop="url">Capturetheether 题解（Accounts）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-03T12:24:11+08:00">2020-12-03</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Accounts"><a href="#Accounts" class="headerlink" title="Accounts"></a>Accounts</h2><h3 id="Fuzzy-identity"><a href="#Fuzzy-identity" class="headerlink" title="Fuzzy identity"></a>Fuzzy identity</h3><h4 id="目标合约"><a href="#目标合约" class="headerlink" title="目标合约"></a>目标合约</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line">interface IName &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">name</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">bytes32</span>);</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">contract</span> <span class="title">FuzzyIdentityChallenge</span> </span>&#123;</span><br><span class="line">    bool public isComplete;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">authenticate</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(isSmarx(msg.sender));</span><br><span class="line">        <span class="built_in">require</span>(isBadCode(msg.sender));</span><br><span class="line"></span><br><span class="line">        isComplete = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isSmarx</span>(<span class="params">address addr</span>) <span class="title">internal</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> IName(addr).name() == bytes32(<span class="string">"smarx"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isBadCode</span>(<span class="params">address _addr</span>) <span class="title">internal</span> <span class="title">pure</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">        bytes20 addr = bytes20(_addr);</span><br><span class="line">        bytes20 id = hex<span class="string">"000000000000000000000000000000000badc0de"</span>;</span><br><span class="line">        bytes20 mask = hex<span class="string">"000000000000000000000000000000000fffffff"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (uint256 i = <span class="number">0</span>; i &lt; <span class="number">34</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (addr &amp; mask == id) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            mask &lt;&lt;= <span class="number">4</span>;</span><br><span class="line">            id &lt;&lt;= <span class="number">4</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/12/03/capturetheether-accounts/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/01/capturetheether-math/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -500,7 +792,7 @@
 
       
         
-          <p>在<a href="https://ethereum.org/zh/developers/" target="_blank" rel="noopener">以太坊官网</a>发现了这个 wargame，项目已经比较老了（solidity 版本为 0.4.21），但是既然是官网推荐的，那就玩玩看：）</p>
+          <p>在<a href="https://ethereum.org/zh/developers/" target="_blank" rel="noopener">以太坊官网</a>发现了这个 wargame，项目已经比较老了（solidity 版本为 0.4.21）。做完之后发现题目质量是相当高的，比起 Ethernaut 更综合也更有趣～</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/12/01/capturetheether-lotteries/#more" rel="contents">
@@ -1032,7 +1324,7 @@
                 
                   <a href="/archives/%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

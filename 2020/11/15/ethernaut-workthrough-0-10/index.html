@@ -110,15 +110,15 @@
 <meta property="og:site_name" content="Lanford33">
 <meta property="og:description" content="无意中看到 Openzeppelin 的这个 Solidity 题库，花了两天时间做完，稍作记录。 -1. 写在前面 Ethernaut 用的是 Ropsten 测试网，这里推荐 Dimensions.network 的水龙头，目前一次给 5 ETH，比 Metamask 的水龙头（一次 1 ETH）给的多一些。 Ethernaut 的题目 import 的 library 许多路径都过时了，可以">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/uploads/solidityStorageLayout.png">
+<meta property="og:image" content="http://yoursite.com/uploads/ethernaut-workthrough-0-10/1.png">
 <meta property="article:published_time" content="2020-11-14T16:46:44.000Z">
-<meta property="article:modified_time" content="2020-12-01T02:00:17.592Z">
+<meta property="article:modified_time" content="2020-12-03T04:36:24.046Z">
 <meta property="article:author" content="Lanford33">
 <meta property="article:tag" content="Solidity">
 <meta property="article:tag" content="Ethereum">
 <meta property="article:tag" content="Blockchain">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/uploads/solidityStorageLayout.png">
+<meta name="twitter:image" content="http://yoursite.com/uploads/ethernaut-workthrough-0-10/1.png">
 
 
 
@@ -461,7 +461,7 @@
 <li><p>我们可以从下图中了解常见数据类型的存储 ：</p>
 </li>
 </ol>
-<p><img src="/uploads/solidityStorageLayout.png" alt="image.png"></p>
+<p><img src="/uploads/ethernaut-workthrough-0-10/1.png" alt="image.png"></p>
 <p>回到题目中，我们只需要从合约中读取 password 即可。在目标合约中，password 会存储在插槽 1 中（插槽 0 存储了 locked，占据 <a href="https://blog.polymath.network/solidity-tips-and-tricks-to-save-gas-and-reduce-bytecode-size-c44580b218e6" target="_blank" rel="noopener">1 字节</a>（是的，不是 1 bit) ，剩下的 31 字节不足以存储 32 字节的 password），所以我们可以进行如下操作：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> password = <span class="keyword">await</span> web3.eth.getStorageAt(instance, <span class="number">1</span>)</span><br><span class="line">contract.unlock(password)</span><br></pre></td></tr></table></figure>
 
@@ -602,7 +602,7 @@
                 
                   <a href="/archives/%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

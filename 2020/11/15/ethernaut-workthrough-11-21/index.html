@@ -110,15 +110,15 @@
 <meta property="og:site_name" content="Lanford33">
 <meta property="og:description" content="11. Elevator通关条件将目标合约的 top 字段修改为 true 目标合约12345678910111213141516171819pragma solidity ^0.5.0;interface Building &amp;#123;  function isLastFloor(uint) external returns (bool);&amp;#125;contract Elevator &amp;#12">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/uploads/solidityGasOpcode.png">
+<meta property="og:image" content="http://yoursite.com/uploads/ethernaut-workthrough-11-21/1.png">
 <meta property="article:published_time" content="2020-11-14T17:28:46.000Z">
-<meta property="article:modified_time" content="2020-12-01T02:00:49.638Z">
+<meta property="article:modified_time" content="2020-12-03T04:35:35.551Z">
 <meta property="article:author" content="Lanford33">
 <meta property="article:tag" content="Solidity">
 <meta property="article:tag" content="Ethereum">
 <meta property="article:tag" content="Blockchain">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/uploads/solidityGasOpcode.png">
+<meta name="twitter:image" content="http://yoursite.com/uploads/ethernaut-workthrough-11-21/1.png">
 
 
 
@@ -395,7 +395,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">contract HackGateOne &#123;</span><br><span class="line"></span><br><span class="line">    GatekeeperOne g;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(address _addr) public &#123;</span><br><span class="line">        g = GatekeeperOne(_addr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">hack</span>(<span class="params">bytes8 _gateKey, uint256 _gasAmount</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        (bool result, ) = address(g).call.gas(_gasAmount)(abi.encodeWithSignature(<span class="string">"enter(bytes8)"</span>, _gateKey));</span><br><span class="line">        <span class="built_in">require</span>(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>用 <code>_gasAmount = 90000</code> 尝试 hack 一下。交易失败后可以通过 etherscan 查看 Geth trace，找出 GAS opcode（gasleft() 的 opcode）的位置，得到：</p>
-<p><img src="/uploads/solidityGasOpcode.png" alt="image.png"></p>
+<p><img src="/uploads/ethernaut-workthrough-11-21/1.png" alt="image.png"></p>
 <p>可见执行到 gasleft() 的时候还剩余 89791 gas，gasleft() 本身又消耗 2 gas，所以本次合约执行 <code>gasleft() == 89789</code>。我们的目标是让 <code>gasleft() == 81910</code>，所以 <code>_gasAmount</code> 调整为 <code>90000 - (89189 - 81910) = 82121</code>，再次提交后成功过关。</p>
 <p>*在 remix 中可以通过 Debug 看到 gas 消耗情况，但是或许由于目标合约的编译器版本和编译器设置和本地环境有所区别，所以得到的结果并不准确。</p>
 <h2 id="14-Gatekeeper-Two"><a href="#14-Gatekeeper-Two" class="headerlink" title="14. Gatekeeper Two"></a>14. Gatekeeper Two</h2><h3 id="通关条件-3"><a href="#通关条件-3" class="headerlink" title="通关条件"></a>通关条件</h3><p>通过目标合约所有 modifier 的检查，设置目标合约的 entrant 字段</p>
@@ -628,7 +628,7 @@
                 
                   <a href="/archives/%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
