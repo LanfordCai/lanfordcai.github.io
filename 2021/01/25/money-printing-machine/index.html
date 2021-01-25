@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.4" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  
+  <meta name="keywords" content="Solidity,Ethereum,DeFi," />
+
+
+<meta name="description" content="算是个 Solidity 入门级应用？  MDEX 应该是这几天币圈最火的矿了。考虑到现在各种币都在高歌猛进，奋力暴涨，我实在是没有当 LP 的勇气，生怕被无常损失给收拾了，所以只拿了点大饼进去白嫖。当时也有注意到 MDEX 引入了曾经风靡各大 CEX 的交易挖矿，但是白嫖的想法太强烈，也就没有在意，直到前两天看到了神鱼的微博：  这个类似闪电贷的玩法勾起了我的兴趣，有赚就成交，没赚就返回，简直">
+<meta property="og:type" content="article">
+<meta property="og:title" content="来！写台印钞机！">
+<meta property="og:url" content="http://yoursite.com/2021/01/25/money-printing-machine/index.html">
+<meta property="og:site_name" content="Lanford33">
+<meta property="og:description" content="算是个 Solidity 入门级应用？  MDEX 应该是这几天币圈最火的矿了。考虑到现在各种币都在高歌猛进，奋力暴涨，我实在是没有当 LP 的勇气，生怕被无常损失给收拾了，所以只拿了点大饼进去白嫖。当时也有注意到 MDEX 引入了曾经风靡各大 CEX 的交易挖矿，但是白嫖的想法太强烈，也就没有在意，直到前两天看到了神鱼的微博：  这个类似闪电贷的玩法勾起了我的兴趣，有赚就成交，没赚就返回，简直">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/uploads/money-printing-machine/weibo.png">
+<meta property="og:image" content="http://yoursite.com/uploads/money-printing-machine/function.png">
+<meta property="og:image" content="http://yoursite.com/uploads/money-printing-machine/10USD.png">
+<meta property="og:image" content="http://yoursite.com/uploads/money-printing-machine/300USD.png">
+<meta property="og:image" content="http://yoursite.com/uploads/money-printing-machine/3000USD.png">
+<meta property="article:published_time" content="2021-01-25T15:50:41.000Z">
+<meta property="article:modified_time" content="2021-01-25T17:49:38.324Z">
+<meta property="article:author" content="Lanford33">
+<meta property="article:tag" content="Solidity">
+<meta property="article:tag" content="Ethereum">
+<meta property="article:tag" content="DeFi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/uploads/money-printing-machine/weibo.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/01/25/money-printing-machine/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>来！写台印钞机！ | Lanford33</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lanford33</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">来写点东西吧！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/25/money-printing-machine/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lanford33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lanford33">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">来！写台印钞机！</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-25T23:50:41+08:00">2021-01-25</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>算是个 Solidity 入门级应用？</p>
+</blockquote>
+<p><a href="https://mdex.com/#/" target="_blank" rel="noopener">MDEX</a> 应该是这几天币圈最火的矿了。考虑到现在各种币都在高歌猛进，奋力暴涨，我实在是没有当 LP 的勇气，生怕被无常损失给收拾了，所以只拿了点大饼进去白嫖。当时也有注意到 MDEX 引入了曾经风靡各大 CEX 的交易挖矿，但是白嫖的想法太强烈，也就没有在意，直到前两天看到了神鱼的微博：</p>
+<p><img src="/uploads/money-printing-machine/weibo.png" alt=""></p>
+<p>这个类似闪电贷的玩法勾起了我的兴趣，有赚就成交，没赚就返回，简直就是印钞机啊！百无聊赖的周日夜里，我决定写出我的第一个 Solidity 应用——把这个套利合约实现出来。</p>
+<a id="more"></a>
+
+<h2 id="交易对选择"><a href="#交易对选择" class="headerlink" title="交易对选择"></a>交易对选择</h2><p>MDEX 启动了挖矿奖励的交易对中，HUSD/USDT 的奖励是最高的，所以其流动性也是最好的，因此我将它选为目标。</p>
+<h2 id="奖励分配机制"><a href="#奖励分配机制" class="headerlink" title="奖励分配机制"></a>奖励分配机制</h2><p>我们首先需要确定一下 MDEX 交易挖矿的奖励分配逻辑，以免掉到什么奇怪的坑里去。</p>
+<p>由于 MDEX 并未在官网列出他们的合约地址，所以我们得自己找出来。先在 MDEX 上做一次兑换，之后在hecochain.com 上查看这次兑换交易是和哪个合约交互的，就可以找到 MDEX 的兑换合约 MdexRouter：<a href="https://scan.hecochain.com/address/0xed7d5f38c79115ca12fe6c0041abb22f0a06c300" target="_blank" rel="noopener">0xed7d5f38c79115ca12fe6c0041abb22f0a06c300</a>，点开浏览器交易页面的 inputData，可以找到这次合约交互调用的函数：</p>
+<p><img src="/uploads/money-printing-machine/function.png" alt=""></p>
+<p>之后我们进入<a href="https://scan.hecochain.com/address/0xed7d5f38c79115ca12fe6c0041abb22f0a06c300#contracts" target="_blank" rel="noopener">合约详情页</a>，可以看到 MDEX 已经将合约提交给 hecochain.com，所以我们可以直接在区块浏览器中阅读合约源码。搜索👆的函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">swapExactTokensForTokens</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">    uint amountIn,</span></span></span><br><span class="line"><span class="function"><span class="params">    uint amountOutMin,</span></span></span><br><span class="line"><span class="function"><span class="params">    address[] calldata path,</span></span></span><br><span class="line"><span class="function"><span class="params">    address to,</span></span></span><br><span class="line"><span class="function"><span class="params">    uint deadline</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) <span class="title">external</span> <span class="title">virtual</span> <span class="title">override</span> <span class="title">ensure</span>(<span class="params">deadline</span>) <span class="title">returns</span> (<span class="params">uint[] memory amounts</span>) </span>&#123;</span><br><span class="line">    amounts = IMdexFactory(factory).getAmountsOut(amountIn, path);</span><br><span class="line">    <span class="built_in">require</span>(amounts[amounts.length - <span class="number">1</span>] &gt;= amountOutMin, <span class="string">'MdexRouter: INSUFFICIENT_OUTPUT_AMOUNT'</span>);</span><br><span class="line">    TransferHelper.safeTransferFrom(</span><br><span class="line">        path[<span class="number">0</span>], msg.sender, pairFor(path[<span class="number">0</span>], path[<span class="number">1</span>]), amounts[<span class="number">0</span>]</span><br><span class="line">    );</span><br><span class="line">    _swap(amounts, path, to);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数输入分别为：1. 用于兑换的代币 A 的数量；2. 希望能换到的代币 B 的最小数量；3. 兑换路径，比如 USDT → HUSD 或者 USDT → WETH → HUSD；4. 代币接收地址；5. 交易截止时间。这个函数是用来做代币兑换的，函数体第一行返回的 amounts 是个列表，记录兑换过程中每种代币的数量，最终换得的代币数量就是列表的最后一个元素。</p>
+<p>对于我们来说，代币兑换过程并不重要，我们想要知道的是刷量的时候，奖励是如何分配的。搜索最后一行的 <code>_swap</code> 函数，得到：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// **** SWAP ****</span></span><br><span class="line"><span class="comment">// requires the initial amount to have already been sent to the first pair</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_swap</span>(<span class="params">uint[] memory amounts, address[] memory path, address _to</span>) <span class="title">internal</span> <span class="title">virtual</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (uint i; i &lt; path.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        (address input, address output) = (path[i], path[i + <span class="number">1</span>]);</span><br><span class="line">        (address token0,) = IMdexFactory(factory).sortTokens(input, output);</span><br><span class="line">        uint amountOut = amounts[i + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (swapMining != address(<span class="number">0</span>)) &#123;</span><br><span class="line">            ISwapMining(swapMining).swap(msg.sender, input, output, amountOut);</span><br><span class="line">        &#125;</span><br><span class="line">        (uint amount0Out, uint amount1Out) = input == token0 ? (uint(<span class="number">0</span>), amountOut) : (amountOut, uint(<span class="number">0</span>));</span><br><span class="line">        address to = i &lt; path.length - <span class="number">2</span> ? pairFor(output, path[i + <span class="number">2</span>]) : _to;</span><br><span class="line">        IMdexPair(pairFor(input, output)).swap(</span><br><span class="line">            amount0Out, amount1Out, to, <span class="keyword">new</span> bytes(<span class="number">0</span>)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到想要的关键词出现了“Mining”。从代码中可以看出 swapMining 是负责挖矿逻辑的合约，我们需要找出它的地址。由于 hecochain.com  暂不支持 Read Contract，所以我们需要调用 MdexRouter 来查看：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Web3 = <span class="built_in">require</span>(<span class="string">'web3'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> web3 = <span class="keyword">new</span> Web3(<span class="string">'https://http-mainnet.hecochain.com'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ROUTER_ABI= <span class="built_in">require</span>(<span class="string">'./abis/router_abi.json'</span>)</span><br><span class="line"><span class="keyword">const</span> ROUTER_CONTRACT_ADDR = web3.utils.toChecksumAddress(<span class="string">'0xed7d5f38c79115ca12fe6c0041abb22f0a06c300'</span>)</span><br><span class="line"><span class="keyword">const</span> ROUTER = <span class="keyword">new</span> web3.eth.Contract(ROUTER_ABI, ROUTER_CONTRACT_ADDR)</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">querySwapMining</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> result = <span class="keyword">await</span> ROUTER.methods.swapMining().call()</span><br><span class="line">    <span class="built_in">console</span>.log(result)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行脚本，得到 SwapMining 的地址：<a href="https://scan.hecochain.com/address/0x7373c42502874C88954bDd6D50b53061F018422e#contracts" target="_blank" rel="noopener">0x7373c42502874C88954bDd6D50b53061F018422e</a>。在这个合约中我们可以找到奖励计算逻辑：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">swap</span>(<span class="params">...</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    pool.quantity = pool.quantity.add(quantity);</span><br><span class="line">    pool.totalQuantity = pool.totalQuantity.add(quantity);</span><br><span class="line">    UserInfo storage user = userInfo[pairOfPid[pair]][account];</span><br><span class="line">    user.quantity = user.quantity.add(quantity);</span><br><span class="line">    ...</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">takerWithdraw</span>(<span class="params">...</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    uint256 userReward = pool.allocMdxAmount.mul(user.quantity).div(pool.quantity);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可见逻辑很简单，每次刷量累加用户交易量，奖励依据用户交易量占交易对总交易量的比例分配。</p>
+<h2 id="套利过程"><a href="#套利过程" class="headerlink" title="套利过程"></a>套利过程</h2><p>现在我们可以决定套利过程了，很简单：</p>
+<ol>
+<li><p>使用 USDT 兑换 HUSD</p>
+</li>
+<li><p>使用 1 中得到的 HUSD 兑换 USDT</p>
+</li>
+<li><p>领取 MDX 奖励，并卖成 USDT</p>
+</li>
+<li><p>计算 USDT 总额，如果扣除 gas 成本后能够大于 0 的话，执行交易，否则回滚。gas 使用 HT 计价的，为了简化计算，我们将其设置为一个固定值。</p>
+</li>
+</ol>
+<h2 id="代码编写"><a href="#代码编写" class="headerlink" title="代码编写"></a>代码编写</h2><p>套利逻辑的实现如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeMoney</span>(<span class="params">...</span>) <span class="title">public</span> <span class="title">onlyOwner</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="comment">// 使用 USDT 兑换 HUSD</span></span><br><span class="line">    uint[] memory round1Amounts = router.swapExactTokensForTokens(round1AmountIn, round1AmountMinOut, round1Path, miner, deadline);</span><br><span class="line">    uint256 round2AmountIn = round1Amounts[round1Path.length - <span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 使用 HUSD 兑换 USDT</span></span><br><span class="line">    uint[] memory round2Amounts = router.swapExactTokensForTokens(round2AmountIn, round2AmountMinOut, round2Path, miner, deadline);</span><br><span class="line">    uint256 amountOut = round2Amounts[round2Path.length - <span class="number">1</span>];</span><br><span class="line">    <span class="comment">// 计算成本</span></span><br><span class="line">    uint256 cost = round1AmountIn.sub(amountOut);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 领取 MDX 奖励</span></span><br><span class="line">    swapMining.takerWithdraw();</span><br><span class="line">    uint256 rewardBalance = rewardToken.balanceOf(miner);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 卖出 MDX 套现，得到 USDT</span></span><br><span class="line">    uint[] memory cashOutAmounts = router.swapExactTokensForTokens(rewardBalance, <span class="number">0</span>, cashOutPath, miner, deadline);</span><br><span class="line">    uint256 cashOutToken1 = cashOutAmounts[cashOutPath.length - <span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 如果 checkProfit 为 false，则不检查收益，只执行上述交易</span></span><br><span class="line">    <span class="comment">// 否则如果收益不符合设定就回滚交易</span></span><br><span class="line">    <span class="keyword">if</span> (checkProfit) &#123;</span><br><span class="line">        <span class="comment">// 如果收益是负数，这里会直接回滚交易</span></span><br><span class="line">        <span class="comment">// fixCost 是用来表示手续费的</span></span><br><span class="line">        uint256 profit = cashOutToken1.sub(cost).sub(fixCost);</span><br><span class="line">        <span class="keyword">if</span> (profit &lt; minProfit) &#123;</span><br><span class="line">            revert(<span class="string">'No Profit'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="走一个？"><a href="#走一个？" class="headerlink" title="走一个？"></a>走一个？</h2><p>我先后尝试使用不同资金量进行刷量（checkProfit 设置为 false）：</p>
+<p>10 刀，收益 -0.0028 刀，收益率 -0.028%（考虑 gas，下同）：</p>
+<p><img src="/uploads/money-printing-machine/10USD.png" alt=""></p>
+<p>300 刀，收益 0.01 刀，收益率 0.0035%：</p>
+<p><img src="/uploads/money-printing-machine/300USD.png" alt=""></p>
+<p>3000 刀，收益 -0.03 刀，收益率 -0.001%：</p>
+<p><img src="/uploads/money-printing-machine/3000USD.png" alt=""></p>
+<p>资金量的增加意味着刷更多的量，但也意味着兑换手续费的增长，也意味着更高的滑点，上面的简单测试没有看出资金量增加有明显的好处。</p>
+<p>此外我们也可以看出，现在刷量利润是多么的微薄。按照 HT现价计算，每次回滚交易也要支付 0.003 刀的手续费，假设每次交易成功能获得 0.01 刀利润（300 刀的例子），则我们四次交易必须有一次要成功才能收支平衡。</p>
+<p>当然，我们也可以使用 eth_call 来模拟执行交易，如果模拟交易失败，则不发送交易到链上，以求尽量把 gas 费也省下来。但是总体而言，在 MDX 现在的价格水平（3.59 刀）下，利润水平是非常非常低的。</p>
+<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p>虽然我们现在有了一台印钞机，但是它的效率实在是太太太低啦～怀揣印钞梦想的各位，散了吧（手动狗头）</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Solidity/" rel="tag"># Solidity</a>
+          
+            <a href="/tags/Ethereum/" rel="tag"># Ethereum</a>
+          
+            <a href="/tags/DeFi/" rel="tag"># DeFi</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/03/capturetheether-miscellaneous/" rel="next" title="Capturetheether 题解（Miscellaneous）">
+                <i class="fa fa-chevron-left"></i> Capturetheether 题解（Miscellaneous）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Lanford33</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#交易对选择"><span class="nav-number">1.</span> <span class="nav-text">交易对选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奖励分配机制"><span class="nav-number">2.</span> <span class="nav-text">奖励分配机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#套利过程"><span class="nav-number">3.</span> <span class="nav-text">套利过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码编写"><span class="nav-number">4.</span> <span class="nav-text">代码编写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#走一个？"><span class="nav-number">5.</span> <span class="nav-text">走一个？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结一下"><span class="nav-number">6.</span> <span class="nav-text">总结一下</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lanford33</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.4"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
